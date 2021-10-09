@@ -3,7 +3,6 @@ import { withSearchProps } from "../../WithSearch";
 import Facets from "./Facets";
 import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
-import PaginationBasic from "./Pagination/PaginationBasic";
 import PaginationLoadMore from "./Pagination/PaginationLoadMore";
 
 type ContainerProps = {} & withSearchProps;
