@@ -2,6 +2,7 @@ import _ from "lodash";
 import { Facet, SelectedFacet } from "../Components/Data/Facet";
 import { Item } from "../Components/Data/Item";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
+import { DeepPick } from "ts-deep-pick";
 
 type SearchResponseRaw = {
   items: Item[];
@@ -55,6 +56,49 @@ class Request<TInternal, TExternal> {
   }
 }
 
+/**
+ *
+ * @param from
+ * @private
+ * @returns
+ */
+export const SearchResponseMapper = (
+  from: DeepPick<SearchResponseRaw, "metadata.facets">
+): SearchResponse => {
+  let availableFacets: Facet[] = from.metadata.facets.map((facet) => {
+    return {
+      id: facet.id,
+      title: facet.title,
+      values: facet.values.map((value) => {
+        return { value: value.value, count: value.count };
+      }),
+    } as Facet;
+  });
+
+  let selectedFacets: SelectedFacet[] = from.metadata.facets
+    .map((facet) => {
+      let selectedValues = facet.values
+        .filter((value) => value.selected)
+        .map((value) => value.value);
+
+      return {
+        id: facet.id,
+        values: selectedValues,
+      };
+    })
+    .filter((item) => item.values.length > 0);
+
+  from.metadata.facets = [];
+
+  let to: any = from;
+  delete to.metadata.facets;
+
+  to.metadata.availableFacets = availableFacets;
+  to.metadata.selectedFacets = selectedFacets;
+
+  return to;
+};
+
 class Client {
   constructor(private token: string) {}
 
@@ -79,7 +123,7 @@ class Client {
       token: this.token,
       query: query.length > 0 ? query : undefined,
       options: {
-        facets,
+        facets: _.reject(facets, (f) => f.values.length == 0),
         offset,
         limit,
         sortBy,
@@ -94,40 +138,7 @@ class Client {
         "Content-Type": "application/json",
       },
       _.pickBy(requestBody, (value) => !!value),
-      (from) => {
-        let availableFacets: Facet[] = from.metadata.facets.map((facet) => {
-          return {
-            id: facet.id,
-            title: facet.title,
-            values: facet.values.map((value) => {
-              return { value: value.value, count: value.count };
-            }),
-          } as Facet;
-        });
-
-        let selectedFacets: SelectedFacet[] = from.metadata.facets
-          .map((facet) => {
-            let selectedValues = facet.values
-              .filter((value) => value.selected)
-              .map((value) => value.value);
-
-            return {
-              id: facet.id,
-              values: selectedValues,
-            };
-          })
-          .filter((item) => item.values.length > 0);
-
-        from.metadata.facets = [];
-
-        let to: any = from;
-        delete to.metadata.facets;
-
-        to.metadata.availableFacets = availableFacets;
-        to.metadata.selectedFacets = selectedFacets;
-
-        return to;
-      }
+      SearchResponseMapper
     );
   }
 }

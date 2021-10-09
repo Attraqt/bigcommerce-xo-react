@@ -1,4 +1,4 @@
-import Client from "./Client";
+import Client, { SearchResponseMapper } from "./Client";
 import _ from "lodash";
 
 describe("Attraqt\\Client::search", () => {
@@ -48,6 +48,52 @@ describe("Attraqt\\Client::search", () => {
     expect(requestWithFacets.body?.options?.facets).toStrictEqual([
       { id: "facet_one", values: ["value_one", "value_two"] },
       { id: "facet_two", values: ["value_three"] },
+    ]);
+  });
+});
+
+describe("Attraqt\\Client - SearchResponseMapper", () => {
+  test("Mapping works as expected", () => {
+    const from = {
+      metadata: {
+        facets: [
+          {
+            id: "facet-1",
+            title: "Facet One",
+            count: 1,
+            values: [
+              { value: "Value One", count: 100, selected: false },
+              { value: "Value Two", count: 200, selected: true },
+            ],
+          },
+        ],
+      },
+    };
+
+    const to = SearchResponseMapper(from);
+
+    expect(to.metadata.availableFacets).toStrictEqual([
+      {
+        id: "facet-1",
+        title: "Facet One",
+        values: [
+          {
+            value: "Value One",
+            count: 100,
+          },
+          {
+            value: "Value Two",
+            count: 200,
+          },
+        ],
+      },
+    ]);
+
+    expect(to.metadata.selectedFacets).toStrictEqual([
+      {
+        id: "facet-1",
+        values: ["Value Two"],
+      },
     ]);
   });
 });
