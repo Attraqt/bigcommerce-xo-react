@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>XO Search Preview</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .xo__container {
+        display: grid;
+        grid-template-columns: minmax(200px, 25%) 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas:
+          "summary summary" "sort sort" "facets items"
+          "pagination pagination";
+      }
+
+      .xo__summary {
+        grid-area: summary;
+      }
+
+      .xo__pagination {
+        grid-area: pagination;
+      }
+
+      .xo__sort {
+        grid-area: sort;
+      }
+
+      .xo__facets {
+        grid-area: facets;
+      }
+
+      .xo__item-grid {
+        grid-area: items;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        column-gap: 5px;
+        row-gap: 5px;
+      }
+
+      .xo__pagination ul {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .xo__pagination ul li:nth-child(n + 2) {
+        margin-left: 3px;
+      }
+
+      .xo__pagination .pagination__page,
+      .xo__pagination .pagination__control {
+        cursor: pointer;
+      }
+
+      .xo__pagination .pagination__page__current {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold">My eCommerce Site</h1>
+      </header>
+      <article class="mb-8">
+        <div id="app"></div>
+      </article>
+    </div>
+    <script src="/bundle.js"></script>
+  </body>
+</html>
