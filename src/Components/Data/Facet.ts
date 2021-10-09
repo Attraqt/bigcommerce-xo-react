@@ -35,7 +35,7 @@ export type FacetProps = {
 export class FacetController {
   constructor(private props: FacetContainerProps) {}
 
-  updateSelected(facet: Facet, value: string) {
+  updateSelected(facet: Pick<Facet, "id">, value: string) {
     const selectedFacets = _.clone(this.props.active);
     const selectedFacet = _.find(selectedFacets, (item) => item.id == facet.id);
     const facetFound = selectedFacet !== undefined;
