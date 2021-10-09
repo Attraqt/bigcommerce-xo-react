@@ -1,8 +1,10 @@
 export type SortOption = {
   label: string;
   attribute: string;
-  order: "desc" | "asc";
+  order: SortDirection;
 };
+
+type SortDirection = "desc" | "asc";
 
 export type ActiveSortOption = Omit<SortOption, "label">;
 

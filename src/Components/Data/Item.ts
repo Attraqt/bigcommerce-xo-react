@@ -8,6 +8,10 @@ export type Item = {
 
 export type ItemGridProps = {
   items: Item[];
+  componentMap?: {
+    contentCard?: React.FC<ItemHandlerProps>;
+    productCard?: React.FC<ItemHandlerProps>;
+  };
 };
 
 export type ItemHandlerProps = {

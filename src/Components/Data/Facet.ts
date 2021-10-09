@@ -1,4 +1,5 @@
 import _ from "lodash";
+import React from "react";
 
 export type Facet = {
   id: string;
@@ -23,7 +24,10 @@ export type FacetContainerProps = {
   available: Facet[];
 
   setActive: (value: SelectedFacet[]) => unknown;
+  facetComponentResolver?: FacetResolver;
 };
+
+export type FacetResolver = (facet: Facet) => React.FC<FacetProps>;
 
 export type FacetProps = {
   facet: Facet;

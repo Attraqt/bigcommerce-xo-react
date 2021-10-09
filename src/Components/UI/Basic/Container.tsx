@@ -4,16 +4,14 @@ import Facets from "./Facets";
 import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import PaginationLoadMore from "./Pagination/PaginationLoadMore";
+import Summary from "./Summary";
 
-type ContainerProps = {} & withSearchProps;
+type AllProps = {} & withSearchProps;
 
-const Container = (props: ContainerProps) => {
+const Container = (props: AllProps) => {
   return (
     <div className="xo__container">
-      <p className="xo__summary">
-        Showing {props.pageItemNumberStart} - {props.pageItemNumberEnd} of{" "}
-        {props.totalItems} results for "{props.query}".
-      </p>
+      <Summary {...props} />
       <SortOrder
         active={props.activeSortOrder}
         available={props.availableSortOrders}

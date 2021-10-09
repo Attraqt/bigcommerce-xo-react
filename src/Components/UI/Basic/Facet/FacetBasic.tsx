@@ -1,6 +1,6 @@
 import { FacetProps } from "../../../Data/Facet";
 
-const Facet = (props: FacetProps) => {
+const FacetBasic = (props: FacetProps) => {
   return (
     <div className="xo__facet__basic">
       <ul>
@@ -24,4 +24,4 @@ const Facet = (props: FacetProps) => {
   );
 };
 
-export default Facet;
+export default FacetBasic;
