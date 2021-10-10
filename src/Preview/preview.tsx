@@ -8,13 +8,13 @@ import Facets from "../Components/UI/Basic/Facets";
 import ContentCard from "../Components/UI/Basic/Item/ContentCard";
 import ProductCard from "../Components/UI/Basic/Item/ProductCard";
 import ItemGrid from "../Components/UI/Basic/ItemGrid";
+import PaginationBasic from "../Components/UI/Basic/Pagination/PaginationBasic";
 import PaginationLoadMore from "../Components/UI/Basic/Pagination/PaginationLoadMore";
 import SortOrder from "../Components/UI/Basic/SortOrder";
 import Summary from "../Components/UI/Basic/Summary";
 import ConfigurableContainer from "../Components/UI/Builder/ConfigurableContainer";
 import { Configuration } from "../Components/UI/Builder/Configuration";
-0;
-import withSearch from "../Components/WithSearch";
+import withSearch, { FixedState } from "../Components/WithSearch";
 
 enum PreviewType {
   BASIC,
@@ -34,22 +34,38 @@ const sort: SortOption[] = [
     label: "Title (Ascending)",
   },
 ];
+
 const initialState = {
   query: "to",
 };
 
-const type = PreviewType.BASIC;
+const config = {
+  clearItemsOnNewPage: true,
+};
+
+const fixedState: FixedState = {
+  // filter: "categryid = 123"
+};
+
+const type = PreviewType.CONFIGURABLE;
 
 if (PreviewType.BASIC) {
-  const SearchContainer = withSearch(BasicContainer, api, sort, initialState, {
-    clearItemsOnNewPage: false,
-  });
+  const SearchContainer = withSearch(
+    BasicContainer,
+    api,
+    sort,
+    initialState,
+    fixedState,
+    config
+  );
   ReactDOM.render(<SearchContainer />, document.getElementById("app"));
 } else if (PreviewType.CONFIGURABLE) {
   const builderConfig: Configuration = {
     loadMorePagination: true,
     componentMap: {
-      pagination: PaginationLoadMore,
+      pagination: config.clearItemsOnNewPage
+        ? PaginationBasic
+        : PaginationLoadMore,
       sort: SortOrder,
       grid: ItemGrid,
       contentCard: ContentCard,

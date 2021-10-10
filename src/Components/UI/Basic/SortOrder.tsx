@@ -17,9 +17,7 @@ const SortOrder = (props: SortOrderProps) => {
     );
   });
 
-  if (activeKey === -1) {
-    options.unshift(<option key={activeKey} value={activeKey}></option>);
-  }
+  options.unshift(<option key={-1} value={-1}></option>);
 
   return (
     <div className="xo__sort">
