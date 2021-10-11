@@ -18,7 +18,6 @@ const Facets = (props: FacetContainerProps) => {
 
     return (
       <div key={index}>
-        <h4>{facet.title}</h4>
         <FacetComponent
           facet={facet}
           selectedValues={selectedFacet ? selectedFacet.values : []}
@@ -30,7 +29,11 @@ const Facets = (props: FacetContainerProps) => {
     );
   });
 
-  return <div className="xo__facets">{facets}</div>;
+  return (
+    <div className="xo__facets">
+      <div>{facets}</div>
+    </div>
+  );
 };
 
 export default Facets;

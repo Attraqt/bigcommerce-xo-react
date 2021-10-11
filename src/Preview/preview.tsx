@@ -40,46 +40,50 @@ const initialState = {
 };
 
 const config = {
-  clearItemsOnNewPage: true,
+  clearItemsOnNewPage: false,
 };
 
 const fixedState: FixedState = {
   // filter: "categryid = 123"
 };
 
-const type = PreviewType.CONFIGURABLE;
+const type: PreviewType = PreviewType.BASIC;
 
-if (PreviewType.BASIC) {
-  const SearchContainer = withSearch(
-    BasicContainer,
-    api,
-    sort,
-    initialState,
-    fixedState,
-    config
-  );
-  ReactDOM.render(<SearchContainer />, document.getElementById("app"));
-} else if (PreviewType.CONFIGURABLE) {
-  const builderConfig: Configuration = {
-    loadMorePagination: true,
-    componentMap: {
-      pagination: config.clearItemsOnNewPage
-        ? PaginationBasic
-        : PaginationLoadMore,
-      sort: SortOrder,
-      grid: ItemGrid,
-      contentCard: ContentCard,
-      productCard: ProductCard,
-      summary: Summary,
-      facets: Facets,
-    },
-    facetResolver: (f: Facet) => FacetBasic,
-  };
+// switch (Number(type)) {
+//   case PreviewType.BASIC: {
+const SearchContainer = withSearch(
+  BasicContainer,
+  api,
+  sort,
+  initialState,
+  fixedState,
+  config
+);
+ReactDOM.render(<SearchContainer />, document.getElementById("app"));
+//   }
 
-  const Container = withSearch(ConfigurableContainer, api, sort, initialState);
+//   case PreviewType.CONFIGURABLE: {
+// const builderConfig: Configuration = {
+//   loadMorePagination: true,
+//   componentMap: {
+//     pagination: config.clearItemsOnNewPage
+//       ? PaginationBasic
+//       : PaginationLoadMore,
+//     sort: SortOrder,
+//     grid: ItemGrid,
+//     contentCard: ContentCard,
+//     productCard: ProductCard,
+//     summary: Summary,
+//     facets: Facets,
+//   },
+//   facetResolver: (f: Facet) => FacetBasic,
+// };
 
-  ReactDOM.render(
-    <Container config={builderConfig} />,
-    document.getElementById("app")
-  );
-}
+// const Container = withSearch(ConfigurableContainer, api, sort, initialState);
+
+// ReactDOM.render(
+//   <Container config={builderConfig} />,
+//   document.getElementById("app")
+// );
+//   }
+// }

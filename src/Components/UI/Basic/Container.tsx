@@ -5,6 +5,7 @@ import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import PaginationLoadMore from "./Pagination/PaginationLoadMore";
 import Summary from "./Summary";
+import PaginationBasic from "./Pagination/PaginationBasic";
 
 type AllProps = {} & withSearchProps;
 

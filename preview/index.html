@@ -9,11 +9,12 @@
     <style>
       .xo__container {
         display: grid;
-        grid-template-columns: minmax(200px, 25%) 1fr;
+        grid-template-columns: minmax(200px, 25%) 1fr 1fr;
         grid-template-rows: 1fr;
         grid-template-areas:
-          "summary summary" "sort sort" "facets items"
-          "pagination pagination";
+          "summary summary sort" "facets items items"
+          "pagination pagination pagination";
+        grid-gap: 5px;
       }
 
       .xo__summary {
@@ -26,10 +27,24 @@
 
       .xo__sort {
         grid-area: sort;
+        justify-self: end;
       }
 
       .xo__facets {
         grid-area: facets;
+      }
+
+      .xo__facets div {
+        position: sticky;
+        top: 0;
+      }
+
+      .xo__facet {
+        margin-bottom: 10px;
+      }
+
+      .xo__facet__title {
+        font-weight: bold;
       }
 
       .xo__item-grid {
