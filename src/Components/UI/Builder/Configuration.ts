@@ -6,7 +6,9 @@ import { SortOrderProps } from "../../Data/SortOrder";
 import { withSearchProps } from "../../WithSearch";
 
 export type Configuration = {
-  loadMorePagination: boolean;
+  feature?: {
+    loadMore?: boolean;
+  };
   componentMap: {
     pagination: React.FC<PaginationProps>;
     sort: React.FC<SortOrderProps>;

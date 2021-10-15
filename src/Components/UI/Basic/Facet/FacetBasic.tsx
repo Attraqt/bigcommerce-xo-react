@@ -2,7 +2,7 @@ import { FacetProps } from "../../../Data/Facet";
 
 const FacetBasic = (props: FacetProps) => {
   return (
-    <div className="xo__facet xo__facet__basic">
+    <div className="xo__facet xo__facet__basic" data-facet-id={props.facet.id}>
       <h4 className="xo__facet__title">{props.facet.title}</h4>
       <ul>
         {props.facet.values.map((value, index) => {

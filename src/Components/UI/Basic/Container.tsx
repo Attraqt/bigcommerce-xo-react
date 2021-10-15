@@ -3,7 +3,6 @@ import { withSearchProps } from "../../WithSearch";
 import Facets from "./Facets";
 import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
-import PaginationLoadMore from "./Pagination/PaginationLoadMore";
 import Summary from "./Summary";
 import PaginationBasic from "./Pagination/PaginationBasic";
 
@@ -24,7 +23,7 @@ const Container = (props: AllProps) => {
         setActive={props.setSelectedFacets}
       />
       <ItemGrid items={props.items} />
-      <PaginationLoadMore
+      <PaginationBasic
         current={props.currentPage}
         total={props.totalPages}
         setCurrent={props.setCurrentPage}

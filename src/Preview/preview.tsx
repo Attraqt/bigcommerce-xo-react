@@ -4,6 +4,7 @@ import { Facet } from "../Components/Data/Facet";
 import { SortOption } from "../Components/Data/SortOrder";
 import BasicContainer from "../Components/UI/Basic/Container";
 import FacetBasic from "../Components/UI/Basic/Facet/FacetBasic";
+import FacetDataList from "../Components/UI/Basic/Facet/FacetDataList";
 import Facets from "../Components/UI/Basic/Facets";
 import ContentCard from "../Components/UI/Basic/Item/ContentCard";
 import ProductCard from "../Components/UI/Basic/Item/ProductCard";
@@ -14,7 +15,8 @@ import SortOrder from "../Components/UI/Basic/SortOrder";
 import Summary from "../Components/UI/Basic/Summary";
 import ConfigurableContainer from "../Components/UI/Builder/ConfigurableContainer";
 import { Configuration } from "../Components/UI/Builder/Configuration";
-import withSearch, { FixedState } from "../Components/WithSearch";
+import withSearch, { FixedState, SearchState } from "../Components/WithSearch";
+import { toSearchState, toURL } from "../State/transformer";
 
 enum PreviewType {
   BASIC,
@@ -35,55 +37,66 @@ const sort: SortOption[] = [
   },
 ];
 
-const initialState = {
+const initialState: SearchState = {
   query: "to",
-};
-
-const config = {
-  clearItemsOnNewPage: false,
+  pageSize: 32,
 };
 
 const fixedState: FixedState = {
   // filter: "categryid = 123"
 };
 
-const type: PreviewType = PreviewType.BASIC;
+const type: PreviewType = PreviewType.CONFIGURABLE;
 
-// switch (Number(type)) {
-//   case PreviewType.BASIC: {
-const SearchContainer = withSearch(
-  BasicContainer,
-  api,
-  sort,
-  initialState,
-  fixedState,
-  config
-);
-ReactDOM.render(<SearchContainer />, document.getElementById("app"));
-//   }
+switch (Number(type)) {
+  case PreviewType.BASIC: {
+    const SearchContainer = withSearch(
+      BasicContainer,
+      api,
+      sort,
+      initialState,
+      fixedState,
+      {}
+    );
 
-//   case PreviewType.CONFIGURABLE: {
-// const builderConfig: Configuration = {
-//   loadMorePagination: true,
-//   componentMap: {
-//     pagination: config.clearItemsOnNewPage
-//       ? PaginationBasic
-//       : PaginationLoadMore,
-//     sort: SortOrder,
-//     grid: ItemGrid,
-//     contentCard: ContentCard,
-//     productCard: ProductCard,
-//     summary: Summary,
-//     facets: Facets,
-//   },
-//   facetResolver: (f: Facet) => FacetBasic,
-// };
+    ReactDOM.render(<SearchContainer />, document.getElementById("app"));
 
-// const Container = withSearch(ConfigurableContainer, api, sort, initialState);
+    break;
+  }
 
-// ReactDOM.render(
-//   <Container config={builderConfig} />,
-//   document.getElementById("app")
-// );
-//   }
-// }
+  case PreviewType.CONFIGURABLE: {
+    const loadMore = true;
+
+    const builderConfig: Configuration = {
+      componentMap: {
+        pagination: loadMore ? PaginationLoadMore : PaginationBasic,
+        sort: SortOrder,
+        grid: ItemGrid,
+        contentCard: ContentCard,
+        productCard: ProductCard,
+        summary: Summary,
+        facets: Facets,
+      },
+      facetResolver: (f: Facet) =>
+        f.id == "facet-Brand" ? FacetDataList : FacetBasic,
+    };
+
+    const Container = withSearch(
+      ConfigurableContainer,
+      api,
+      sort,
+      initialState,
+      fixedState,
+      { clearItemsOnNewPage: !loadMore },
+      toURL,
+      toSearchState
+    );
+
+    ReactDOM.render(
+      <Container config={builderConfig} />,
+      document.getElementById("app")
+    );
+
+    break;
+  }
+}
