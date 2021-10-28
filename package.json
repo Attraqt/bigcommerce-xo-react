@@ -1,6 +1,6 @@
 {
-  "name": "@space48/attraqt-xo-react",
-  "version": "0.1.0-alpha",
+  "name": "@space48/xo-react",
+  "version": "0.2.0-alpha",
   "description": "React component library for implementing Attraqt XO.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
