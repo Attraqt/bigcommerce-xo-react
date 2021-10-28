@@ -1,17 +1,24 @@
 {
-  "name": "@attraqt/xo-react",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@space48/attraqt-xo-react",
+  "version": "0.1.0-alpha",
+  "description": "React component library for implementing Attraqt XO.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
+    "clean": "rm -rf ./build",
     "build": "tsc",
     "serve": "webpack serve --open",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint",
+    "prepare": "npm run clean && npm run build",
+    "format": "prettier --write ./src/**/*.[tj]s ./src/**/*.[tj]sx",
+    "prepublishOnly": "npm run test",
+    "preversion": "npm run lint",
+    "version": "npm run format"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nick Jones <nick@space48.com> (https://www.space48.com)",
+  "license": "UNLICENSED",
   "files": [
     "build/**/*"
   ],
@@ -46,7 +53,9 @@
     "webpack-dev-server": "^4.3.1"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }

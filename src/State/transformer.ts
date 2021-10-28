@@ -3,6 +3,9 @@ import _ from "lodash";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
 import { SelectedFacet } from "../Components/Data/Facet";
 
+const QUERY_ANY = "*";
+const PAGE_SIZE_DEFAULT = 32;
+
 export const toSearchState = (url: string): SearchState => {
   const oUrl = new URL(url);
   const params = oUrl.searchParams;
@@ -16,6 +19,8 @@ export const toSearchState = (url: string): SearchState => {
 
   if (query) {
     state.query = query;
+  } else {
+    state.query = QUERY_ANY;
   }
 
   if (sort) {
@@ -24,10 +29,14 @@ export const toSearchState = (url: string): SearchState => {
 
   if (page) {
     state.currentPage = Number(page);
+  } else {
+    state.currentPage = 1;
   }
 
   if (pageSize) {
     state.pageSize = Number(pageSize);
+  } else {
+    state.pageSize = PAGE_SIZE_DEFAULT;
   }
 
   if (facets) {
@@ -40,7 +49,7 @@ export const toSearchState = (url: string): SearchState => {
 export const toURL = (state: SearchState): string => {
   const params: any = {};
 
-  if (state.query) {
+  if (state.query && state.query !== QUERY_ANY) {
     params.query = state.query;
   }
 
@@ -52,7 +61,7 @@ export const toURL = (state: SearchState): string => {
     params.page = state.currentPage;
   }
 
-  if (state.pageSize && state.pageSize != 96) {
+  if (state.pageSize && state.pageSize != PAGE_SIZE_DEFAULT) {
     params.pageSize = state.pageSize;
   }
 

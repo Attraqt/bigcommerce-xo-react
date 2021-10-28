@@ -65,7 +65,7 @@ switch (Number(type)) {
   }
 
   case PreviewType.CONFIGURABLE: {
-    const loadMore = true;
+    const loadMore = false;
 
     const builderConfig: Configuration = {
       componentMap: {
