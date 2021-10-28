@@ -1,8 +1,8 @@
 import { PaginationProps } from "../../../Data/Pagination";
-import _ from "lodash";
+import { range } from "lodash";
 
 const PaginationBasic = (props: PaginationProps) => {
-  let pages = _.range(1, props.total + 1, 1).map((page, index) => {
+  let pages = range(1, props.total + 1, 1).map((page, index) => {
     return (
       <li
         key={index}

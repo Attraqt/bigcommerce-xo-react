@@ -1,8 +1,8 @@
-import _ from "lodash";
+import { map, findIndex } from "lodash";
 import { makeActive, SortOrderProps } from "../../Data/SortOrder";
 
 const SortOrder = (props: SortOrderProps) => {
-  const options = _.map(props.available, (option, key) => {
+  const options = map(props.available, (option, key) => {
     return (
       <option key={key} value={key}>
         {option.label}
@@ -10,7 +10,7 @@ const SortOrder = (props: SortOrderProps) => {
     );
   });
 
-  const activeKey = _.findIndex(props.available, (order) => {
+  const activeKey = findIndex(props.available, (order) => {
     return (
       order.attribute == props.active?.attribute &&
       order.order == props.active?.order

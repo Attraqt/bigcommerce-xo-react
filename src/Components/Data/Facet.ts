@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { clone, find, reject } from "lodash";
 import React from "react";
 
 export type Facet = {
@@ -40,18 +40,15 @@ export class FacetController {
   constructor(private props: FacetContainerProps) {}
 
   updateSelected(facet: Pick<Facet, "id">, value: string) {
-    const selectedFacets = _.clone(this.props.active);
-    const selectedFacet = _.find(selectedFacets, (item) => item.id == facet.id);
+    const selectedFacets = clone(this.props.active);
+    const selectedFacet = find(selectedFacets, (item) => item.id == facet.id);
     const facetFound = selectedFacet !== undefined;
 
     if (facetFound) {
       const alreadySelected = selectedFacet.values.includes(value);
 
       if (alreadySelected) {
-        selectedFacet.values = _.reject(
-          selectedFacet.values,
-          (v) => v == value
-        );
+        selectedFacet.values = reject(selectedFacet.values, (v) => v == value);
       } else {
         selectedFacet.values.push(value);
       }
@@ -63,12 +60,12 @@ export class FacetController {
     }
 
     this.props.setActive(
-      _.reject(selectedFacets, (facet) => facet.values.length == 0)
+      reject(selectedFacets, (facet) => facet.values.length == 0)
     );
   }
 
   isSelected(facet: Facet, value: string): boolean {
-    const selectedFacet = _.find(
+    const selectedFacet = find(
       this.props.active,
       (item) => item.id == facet.id
     );

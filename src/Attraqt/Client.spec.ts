@@ -1,5 +1,4 @@
 import Client, { SearchResponseMapper } from "./Client";
-import _ from "lodash";
 
 describe("Attraqt\\Client::search", () => {
   const request = new Client("searchtoken").search("", 0, 12);

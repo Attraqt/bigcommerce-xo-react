@@ -1,7 +1,8 @@
 import { SearchState } from "../Components/WithSearch";
-import _ from "lodash";
+import { isEmpty } from "lodash";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
 import { SelectedFacet } from "../Components/Data/Facet";
+import { forEach } from "lodash";
 
 const QUERY_ANY = "*";
 const PAGE_SIZE_DEFAULT = 32;
@@ -53,7 +54,7 @@ export const toURL = (state: SearchState): string => {
     params.query = state.query;
   }
 
-  if (state.activeSortOrder && !_.isEmpty(state.activeSortOrder)) {
+  if (state.activeSortOrder && !isEmpty(state.activeSortOrder)) {
     params.sort = JSON.stringify(state.activeSortOrder);
   }
 
@@ -65,13 +66,13 @@ export const toURL = (state: SearchState): string => {
     params.pageSize = state.pageSize;
   }
 
-  if (state.selectedFacets && !_.isEmpty(state.selectedFacets)) {
+  if (state.selectedFacets && !isEmpty(state.selectedFacets)) {
     params.facets = JSON.stringify(state.selectedFacets);
   }
 
   const searchParams = new URLSearchParams();
 
-  _.forEach(params, (value, key) => {
+  forEach(params, (value, key) => {
     searchParams.set(key, value);
   });
 

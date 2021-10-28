@@ -1,4 +1,4 @@
-import _ from "lodash";
+import { pickBy, reject } from "lodash";
 import { Facet, SelectedFacet } from "../Components/Data/Facet";
 import { Item } from "../Components/Data/Item";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
@@ -123,7 +123,7 @@ class Client {
       token: this.token,
       query: query.length > 0 ? query : undefined,
       options: {
-        facets: _.reject(facets, (f) => f.values.length == 0),
+        facets: reject(facets, (f) => f.values.length == 0),
         offset,
         limit,
         sortBy,
@@ -137,7 +137,7 @@ class Client {
       {
         "Content-Type": "application/json",
       },
-      _.pickBy(requestBody, (value) => !!value),
+      pickBy(requestBody, (value) => !!value),
       SearchResponseMapper
     );
   }

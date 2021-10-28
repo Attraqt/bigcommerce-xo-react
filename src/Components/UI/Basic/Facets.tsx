@@ -4,7 +4,7 @@ import {
   FacetController,
   FacetResolver,
 } from "../../Data/Facet";
-import _ from "lodash";
+import { find } from "lodash";
 import FacetBasic from "./Facet/FacetBasic";
 
 const Facets = (props: FacetContainerProps) => {
@@ -13,7 +13,7 @@ const Facets = (props: FacetContainerProps) => {
     props.facetComponentResolver ?? ((f: Facet) => FacetBasic);
 
   const facets = props.available.map((facet, index) => {
-    const selectedFacet = _.find(props.active, (f) => f.id == facet.id);
+    const selectedFacet = find(props.active, (f) => f.id == facet.id);
     const FacetComponent = componentResolver(facet);
 
     return (

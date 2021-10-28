@@ -4,7 +4,6 @@ import { Facet, SelectedFacet } from "./Data/Facet";
 import { calculateMaxPages, calculatePage } from "./Data/Pagination";
 import { Item } from "./Data/Item";
 import { ActiveSortOption, SortOption } from "./Data/SortOrder";
-import _ from "lodash";
 import { toSearchState, toURL } from "../State/transformer";
 
 export type withSearchProps = {
