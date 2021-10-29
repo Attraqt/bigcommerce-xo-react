@@ -5,6 +5,8 @@ import { calculateMaxPages, calculatePage } from "./Data/Pagination";
 import { Item } from "./Data/Item";
 import { ActiveSortOption, SortOption } from "./Data/SortOrder";
 import { toSearchState, toURL } from "../State/transformer";
+import usePrevious from "../Util/UsePrevious";
+import _, { isEqual } from "lodash";
 
 export type withSearchProps = {
   api: Client;
@@ -101,18 +103,44 @@ const withSearch = <T,>(
 
   const SearchWrappedComponent = (props: T) => {
     const [query, setQuery] = useState<string>();
+    const previousQuery = usePrevious(query);
+
     const [sort, setSortOrder] = useState<ActiveSortOption | undefined>();
+    const previousSort = usePrevious(sort);
+
     const [availableSortOrders, setAvailableSortOrders] = useState<
       SortOption[]
     >(initialAvailableSortOrders);
     const [items, setItems] = useState<Item[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [currentPage, setCurrentPage] = useState<number>(1);
+
     const [perPage, setPerPage] = useState<number>();
+    const previousPerPage = usePrevious(perPage);
+
     const [facets, setFacets] = useState<Facet[]>([]);
-    const [selectedFacets, setSelectedFacets] = useState<SelectedFacet[]>(
+
+    const [selectedFacets, __setSelectedFacets] = useState<SelectedFacet[]>(
       initialState.selectedFacets ?? []
     );
+
+    const setSelectedFacets = (data: SelectedFacet[]) => {
+      // Keep our internal representation of the selected facets in a deterministic order so we don't trigger
+      // any useEffect calls unnecessarily.
+      __setSelectedFacets(
+        data
+          .sort((a: SelectedFacet, b: SelectedFacet) =>
+            a.id.toUpperCase() > b.id.toUpperCase() ? 1 : -1
+          )
+          .map((f) => {
+            f.values.sort();
+            return f;
+          })
+      );
+    };
+
+    const previousSelectedFacets = usePrevious(selectedFacets);
+
     const [totalItems, setTotalItems] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -149,12 +177,22 @@ const withSearch = <T,>(
     }, []);
 
     useEffect(() => {
-      console.log("Query:", query);
-      console.log("Sort:", sort);
-      console.log("Current Page:", currentPage);
-      console.log("Selected Facets:", selectedFacets);
-
       if (!perPage || !currentPage || !query) return;
+
+      /**
+       * If we've changed anything that might affect the search results grid then set the current page back to 1.
+       */
+      if (currentPage > 1) {
+        if (
+          perPage != previousPerPage ||
+          query != previousQuery ||
+          !isEqual(sort, previousSort) ||
+          !isEqual(selectedFacets, previousSelectedFacets)
+        ) {
+          setCurrentPage(1);
+          return;
+        }
+      }
 
       setLoading(true);
 
