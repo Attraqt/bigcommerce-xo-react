@@ -2,6 +2,7 @@ export type PaginationProps = {
   current: number;
   setCurrent: (page: number) => unknown;
   total: number;
+  isLoading: boolean;
 };
 
 /**

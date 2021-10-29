@@ -9,6 +9,8 @@ import { toSearchState, toURL } from "../State/transformer";
 export type withSearchProps = {
   api: Client;
 
+  loading: boolean;
+
   query: string;
   setQuery: (value: string) => unknown;
 
@@ -112,6 +114,7 @@ const withSearch = <T,>(
       initialState.selectedFacets ?? []
     );
     const [totalItems, setTotalItems] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(true);
 
     /**
      * Used to detect whether there was a page change in the last state change.
@@ -153,6 +156,8 @@ const withSearch = <T,>(
 
       if (!perPage || !currentPage || !query) return;
 
+      setLoading(true);
+
       api
         .search(
           query,
@@ -187,6 +192,9 @@ const withSearch = <T,>(
           }
 
           __setPreviousCurrentPage(currentPage);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }, [query, sort, currentPage, JSON.stringify(selectedFacets)]);
 
@@ -205,6 +213,7 @@ const withSearch = <T,>(
     return (
       <WrappedComponent
         api={api}
+        loading={loading}
         query={query ?? ""}
         setQuery={setQuery}
         activeSortOrder={sort}

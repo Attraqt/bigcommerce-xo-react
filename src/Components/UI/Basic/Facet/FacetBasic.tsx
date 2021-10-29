@@ -12,9 +12,16 @@ const FacetBasic = (props: FacetProps) => {
                 type="checkbox"
                 readOnly={true}
                 checked={props.selectedValues.includes(value.value)}
-                onClick={() => props.toggleSelectedValue(value.value)}
+                onClick={() =>
+                  !props.isLoading && props.toggleSelectedValue(value.value)
+                }
+                disabled={props.isLoading}
               />{" "}
-              <label onClick={() => props.toggleSelectedValue(value.value)}>
+              <label
+                onClick={() =>
+                  !props.isLoading && props.toggleSelectedValue(value.value)
+                }
+              >
                 {value.value} ({value.count})
               </label>
             </li>

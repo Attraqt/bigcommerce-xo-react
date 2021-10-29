@@ -25,6 +25,8 @@ export type FacetContainerProps = {
 
   setActive: (value: SelectedFacet[]) => unknown;
   facetComponentResolver?: FacetResolver;
+
+  isLoading: boolean;
 };
 
 export type FacetResolver = (facet: Facet) => React.FC<FacetProps>;
@@ -34,6 +36,8 @@ export type FacetProps = {
   selectedValues: SelectedFacetValues;
 
   toggleSelectedValue: (value: string) => unknown;
+
+  isLoading: boolean;
 };
 
 export class FacetController {

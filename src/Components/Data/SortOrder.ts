@@ -12,6 +12,7 @@ export type SortOrderProps = {
   available: SortOption[];
   active: ActiveSortOption | undefined;
   setActive: (active: ActiveSortOption) => unknown;
+  isLoading: boolean;
 };
 
 /**

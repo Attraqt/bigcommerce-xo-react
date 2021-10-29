@@ -14,9 +14,9 @@ const ItemGrid = (props: ItemGridProps) => {
           return (
             <li key={index}>
               {item.kind == "content" ? (
-                <ContentCardComponent item={item} />
+                <ContentCardComponent item={item} isLoading={props.isLoading} />
               ) : (
-                <ProductCardComponent item={item} />
+                <ProductCardComponent item={item} isLoading={props.isLoading} />
               )}
             </li>
           );

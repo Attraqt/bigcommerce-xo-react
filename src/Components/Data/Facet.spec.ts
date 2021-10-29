@@ -20,6 +20,7 @@ describe("Components\\Data\\Facet\\FacetController::updateSelected", () => {
       setActive: (active: SelectedFacet[]) => {
         updatedActive = active;
       },
+      isLoading: false,
     });
 
     controller.updateSelected({ id: "test" }, "test_value");
@@ -55,6 +56,7 @@ describe("Components\\Data\\Facet\\FacetController::updateSelected", () => {
       setActive: (active: SelectedFacet[]) => {
         updatedActive = active;
       },
+      isLoading: false,
     });
 
     controller.updateSelected({ id: "test" }, "additional_test_value");
@@ -90,6 +92,7 @@ describe("Components\\Data\\Facet\\FacetController::updateSelected", () => {
       setActive: (active: SelectedFacet[]) => {
         updatedActive = active;
       },
+      isLoading: false,
     });
 
     controller.updateSelected({ id: "test" }, "test_value");
@@ -125,6 +128,7 @@ describe("Components\\Data\\Facet\\FacetController::updateSelected", () => {
       setActive: (active: SelectedFacet[]) => {
         updatedActive = active;
       },
+      isLoading: false,
     });
 
     controller.updateSelected({ id: "test" }, "test_value");

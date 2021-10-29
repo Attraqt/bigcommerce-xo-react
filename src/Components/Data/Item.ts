@@ -12,8 +12,10 @@ export type ItemGridProps = {
     contentCard?: React.FC<ItemHandlerProps>;
     productCard?: React.FC<ItemHandlerProps>;
   };
+  isLoading: boolean;
 };
 
 export type ItemHandlerProps = {
   item: Item;
+  isLoading: boolean;
 };

@@ -16,6 +16,7 @@ const Container = (props: AllProps) => {
           active={props.selectedFacets}
           available={props.facets}
           setActive={props.setSelectedFacets}
+          isLoading={props.loading}
         />
       </aside>
       <div className="page-content" id="product-listing-container">
@@ -25,12 +26,14 @@ const Container = (props: AllProps) => {
               active={props.activeSortOrder}
               available={props.availableSortOrders}
               setActive={props.setActiveSortOrder}
+              isLoading={props.loading}
             />
-            <ItemGrid items={props.items} />
+            <ItemGrid items={props.items} isLoading={props.loading} />
             <Pagination
               current={props.currentPage}
               total={props.totalPages}
               setCurrent={props.setCurrentPage}
+              isLoading={props.loading}
             />
           </>
         ) : (

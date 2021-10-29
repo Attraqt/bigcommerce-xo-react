@@ -7,7 +7,7 @@ const PaginationBasic = (props: PaginationProps) => {
       <li
         key={index}
         onClick={() => {
-          props.setCurrent(page);
+          !props.isLoading && props.setCurrent(page);
         }}
         className={
           page == props.current
@@ -25,7 +25,7 @@ const PaginationBasic = (props: PaginationProps) => {
       key="next"
       className="pagination__control pagination__control__next"
       onClick={() => {
-        props.setCurrent(props.current + 1);
+        !props.isLoading && props.setCurrent(props.current + 1);
       }}
     >
       Next &gt;
@@ -36,7 +36,7 @@ const PaginationBasic = (props: PaginationProps) => {
       key="prev"
       className="pagination__control pagination__control__prev"
       onClick={() => {
-        props.setCurrent(props.current - 1);
+        !props.isLoading && props.setCurrent(props.current - 1);
       }}
     >
       &lt; Prev

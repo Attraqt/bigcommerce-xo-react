@@ -29,6 +29,7 @@ const Facets = (props: FacetContainerProps) => {
           toggleSelectedValue={(value: string) => {
             controller.updateSelected(facet, value);
           }}
+          isLoading={props.isLoading}
         />
       </div>
     );
