@@ -7,6 +7,9 @@ import { forEach } from "lodash";
 const QUERY_ANY = "*";
 const PAGE_SIZE_DEFAULT = 32;
 
+const facetSorter = (a: SelectedFacet, b: SelectedFacet) =>
+  a.id.toUpperCase() > b.id.toUpperCase() ? 1 : -1;
+
 export const toSearchState = (url: string): SearchState => {
   const oUrl = new URL(url);
   const params = oUrl.searchParams;
@@ -25,7 +28,12 @@ export const toSearchState = (url: string): SearchState => {
   }
 
   if (sort) {
-    state.activeSortOrder = JSON.parse(sort) as ActiveSortOption;
+    const [attribute, order] = sort.split(":");
+
+    state.activeSortOrder = {
+      attribute,
+      order,
+    } as ActiveSortOption;
   }
 
   if (page) {
@@ -41,7 +49,18 @@ export const toSearchState = (url: string): SearchState => {
   }
 
   if (facets) {
-    state.selectedFacets = JSON.parse(facets) as SelectedFacet[];
+    state.selectedFacets = facets
+      .split("|")
+      .map((data) => {
+        const [attr, valueString] = data.split(":");
+        const values = valueString.split(",").sort();
+
+        return {
+          id: attr,
+          values,
+        } as SelectedFacet;
+      })
+      .sort(facetSorter);
   }
 
   return state;
@@ -55,7 +74,7 @@ export const toURL = (state: SearchState): string => {
   }
 
   if (state.activeSortOrder && !isEmpty(state.activeSortOrder)) {
-    params.sort = JSON.stringify(state.activeSortOrder);
+    params.sort = `${state.activeSortOrder.attribute}:${state.activeSortOrder.order}`;
   }
 
   if (state.currentPage && state.currentPage > 1) {
@@ -67,7 +86,12 @@ export const toURL = (state: SearchState): string => {
   }
 
   if (state.selectedFacets && !isEmpty(state.selectedFacets)) {
-    params.facets = JSON.stringify(state.selectedFacets);
+    params.facets = state.selectedFacets
+      .sort(facetSorter)
+      .map((f) => {
+        return `${f.id}:${f.values.sort()}`;
+      })
+      .join("|");
   }
 
   const searchParams = new URLSearchParams();
