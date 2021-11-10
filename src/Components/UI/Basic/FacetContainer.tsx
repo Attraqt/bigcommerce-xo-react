@@ -1,18 +1,14 @@
-import {
-  Facet,
-  FacetContainerProps,
-  FacetController,
-  FacetResolver,
-} from "../../Data/Facet";
+import { Facet, FacetContainerProps, FacetController } from "../../Data/Facet";
 import { find } from "lodash";
 import FacetBasic from "./Facet/FacetBasic";
 
-const Facets = (props: FacetContainerProps) => {
+const FacetContainer = (props: FacetContainerProps) => {
   const controller = new FacetController(props);
-  const componentResolver: FacetResolver =
-    props.facetComponentResolver ?? ((f: Facet) => FacetBasic);
+  const componentResolver = (f: Facet) => FacetBasic;
 
   const facets = props.available.map((facet, index) => {
+    if (!facet) return;
+
     const selectedFacet = find(props.active, (f) => f.id == facet.id);
     const FacetComponent = componentResolver(facet);
 
@@ -37,4 +33,4 @@ const Facets = (props: FacetContainerProps) => {
   );
 };
 
-export default Facets;
+export default FacetContainer;

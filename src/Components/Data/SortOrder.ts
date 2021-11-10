@@ -9,7 +9,6 @@ type SortDirection = "desc" | "asc";
 export type ActiveSortOption = Omit<SortOption, "label">;
 
 export type SortOrderProps = {
-  available: SortOption[];
   active: ActiveSortOption | undefined;
   setActive: (active: ActiveSortOption) => unknown;
   isLoading: boolean;

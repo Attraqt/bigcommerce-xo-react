@@ -1,5 +1,5 @@
 import React from "react";
-import { Facet, FacetContainerProps, FacetResolver } from "../../Data/Facet";
+import { FacetContainerProps } from "../../Data/Facet";
 import { ItemGridProps, ItemHandlerProps } from "../../Data/Item";
 import { PaginationProps } from "../../Data/Pagination";
 import { SortOrderProps } from "../../Data/SortOrder";
@@ -18,5 +18,4 @@ export type Configuration = {
     productCard: React.FC<ItemHandlerProps>;
     contentCard: React.FC<ItemHandlerProps>;
   };
-  facetResolver: FacetResolver;
 };

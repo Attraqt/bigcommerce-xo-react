@@ -6,14 +6,27 @@ import {
 } from "../../Data/Facet";
 import { find } from "lodash";
 import FacetBasic from "./Facets/FacetBasic";
+import BigCommerceConfiguration, {
+  BigCommerceConfigurationProps,
+  BigCommerceXOConfig,
+} from "../../Data/BigCommerceConfiguration";
 
-const Facets = (props: FacetContainerProps) => {
+const facetResolverFactory = (config: BigCommerceXOConfig): FacetResolver => {
+  return (f: Facet) => FacetBasic;
+};
+
+const FacetContainer = (
+  props: FacetContainerProps & Partial<BigCommerceConfigurationProps>
+) => {
   const controller = new FacetController(props);
-  const componentResolver: FacetResolver =
-    props.facetComponentResolver ?? ((f: Facet) => FacetBasic);
+  const componentResolver: FacetResolver = facetResolverFactory(
+    props?.bigCommerceConfig || {}
+  );
 
   const facets = props.available.map((facet, index) => {
-    const selectedFacet = find(props.active, (f) => f.id == facet.id);
+    if (!facet) return;
+
+    const selectedFacet = find(props.active, (f) => f?.id == facet.id);
     const FacetComponent = componentResolver(facet);
 
     return (
@@ -42,4 +55,4 @@ const Facets = (props: FacetContainerProps) => {
   );
 };
 
-export default Facets;
+export default BigCommerceConfiguration(FacetContainer);

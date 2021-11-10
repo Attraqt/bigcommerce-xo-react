@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Client from "../Attraqt/Client";
-import { Facet, SelectedFacet } from "./Data/Facet";
+import { Facet, FacetResolver, SelectedFacet } from "./Data/Facet";
 import { calculateMaxPages, calculatePage } from "./Data/Pagination";
 import { Item } from "./Data/Item";
 import { ActiveSortOption, SortOption } from "./Data/SortOrder";
@@ -19,17 +19,12 @@ export type withSearchProps = {
   activeSortOrder: ActiveSortOption | undefined;
   setActiveSortOrder: (value: ActiveSortOption) => unknown;
 
-  availableSortOrders: SortOption[];
-  setAvailableSortOrders: (value: SortOption[]) => unknown;
-
   currentPage: number;
   setCurrentPage: (value: number) => unknown;
 
   totalPages: number;
-  // setTotalPages: (value: number) => unknown;
 
   facets: Facet[];
-  // setFacets: (value: Facet[]) => unknown;
 
   selectedFacets: SelectedFacet[];
   setSelectedFacets: (value: SelectedFacet[]) => unknown;
@@ -92,7 +87,6 @@ const initSearchConfigurationDefaults = (
 const withSearch = <T,>(
   WrappedComponent: React.ComponentType<T & withSearchProps>,
   api: Client,
-  initialAvailableSortOrders: SortOption[] = [],
   initialState: SearchState = {},
   permanentState: FixedState = {},
   searchConfiguration: SearchConfiguration = {},
@@ -108,9 +102,6 @@ const withSearch = <T,>(
     const [sort, setSortOrder] = useState<ActiveSortOption | undefined>();
     const previousSort = usePrevious(sort);
 
-    const [availableSortOrders, setAvailableSortOrders] = useState<
-      SortOption[]
-    >(initialAvailableSortOrders);
     const [items, setItems] = useState<Item[]>([]);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -256,8 +247,6 @@ const withSearch = <T,>(
         setQuery={setQuery}
         activeSortOrder={sort}
         setActiveSortOrder={setSortOrder}
-        availableSortOrders={availableSortOrders}
-        setAvailableSortOrders={setAvailableSortOrders}
         items={items}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}

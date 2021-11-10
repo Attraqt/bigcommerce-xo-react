@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { FacetResolver } from "../../Data/Facet";
-import Facets from "./Facets";
+import FacetContainer from "./FacetContainer";
 import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import Pagination from "./Pagination";
@@ -12,11 +12,12 @@ const Container = (props: AllProps) => {
   return (
     <div className="xo__container">
       <aside className="page-sidebar" id="faceted-search-container">
-        <Facets
+        <FacetContainer
           active={props.selectedFacets}
           available={props.facets}
           setActive={props.setSelectedFacets}
           isLoading={props.loading}
+          facetComponentResolver={props.facetResolver}
         />
       </aside>
       <div className="page-content" id="product-listing-container">
@@ -24,7 +25,6 @@ const Container = (props: AllProps) => {
           <>
             <SortOrder
               active={props.activeSortOrder}
-              available={props.availableSortOrders}
               setActive={props.setActiveSortOrder}
               isLoading={props.loading}
             />

@@ -12,7 +12,7 @@ export { default as ConfigurableContainer } from "./Components/UI/Builder/Config
 export * from "./Components/UI/Builder/Configuration";
 
 export { default as Container } from "./Components/UI/Basic/Container";
-export { default as Facets } from "./Components/UI/Basic/Facets";
+export { default as FacetContainer } from "./Components/UI/Basic/FacetContainer";
 export { default as ItemGrid } from "./Components/UI/Basic/ItemGrid";
 export { default as SortOrder } from "./Components/UI/Basic/SortOrder";
 export { default as Summary } from "./Components/UI/Basic/Summary";
@@ -28,7 +28,7 @@ export { default as PaginationBasic } from "./Components/UI/Basic/Pagination/Pag
 export { default as PaginationLoadMore } from "./Components/UI/Basic/Pagination/PaginationLoadMore";
 
 export { default as CornerstoneContainer } from "./Components/UI/Cornerstone/Container";
-export { default as CornerstoneFacets } from "./Components/UI/Cornerstone/Facets";
+export { default as CornerstoneFacetContainer } from "./Components/UI/Cornerstone/FacetContainer";
 export { default as CornerstoneFacetBasic } from "./Components/UI/Cornerstone/Facets/FacetBasic";
 export { default as CornerstoneItemGrid } from "./Components/UI/Cornerstone/ItemGrid";
 export { default as CornerstonePagination } from "./Components/UI/Cornerstone/Pagination";

@@ -16,7 +16,6 @@ const ConfigurableContainer = (props: ContainerProps) => {
       <Summary {...props} />
       <SortOrder
         active={props.activeSortOrder}
-        available={props.availableSortOrders}
         setActive={props.setActiveSortOrder}
         isLoading={props.loading}
       />
@@ -24,7 +23,6 @@ const ConfigurableContainer = (props: ContainerProps) => {
         active={props.selectedFacets}
         available={props.facets}
         setActive={props.setSelectedFacets}
-        facetComponentResolver={props.config.facetResolver}
         isLoading={props.loading}
       />
       <ItemGrid

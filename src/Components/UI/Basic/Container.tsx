@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { withSearchProps } from "../../WithSearch";
-import Facets from "./Facets";
+import FacetContainer from "./FacetContainer";
 import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import Summary from "./Summary";
@@ -14,11 +14,10 @@ const Container = (props: AllProps) => {
       <Summary {...props} />
       <SortOrder
         active={props.activeSortOrder}
-        available={props.availableSortOrders}
         setActive={props.setActiveSortOrder}
         isLoading={props.loading}
       />
-      <Facets
+      <FacetContainer
         active={props.selectedFacets}
         available={props.facets}
         setActive={props.setSelectedFacets}

@@ -1,8 +1,25 @@
 import { map, findIndex } from "lodash";
-import { makeActive, SortOrderProps } from "../../Data/SortOrder";
+import BigCommerceConfiguration, {
+  BigCommerceConfigurationProps,
+} from "../../Data/BigCommerceConfiguration";
+import { makeActive, SortOption, SortOrderProps } from "../../Data/SortOrder";
 
-const SortOrder = (props: SortOrderProps) => {
-  const options = map(props.available, (option, key) => {
+const SortOrder = (
+  props: SortOrderProps & Partial<BigCommerceConfigurationProps>
+) => {
+  const available: SortOption[] = (
+    props.bigCommerceConfig?.customSortOptions ?? []
+  )
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((so) => {
+      return {
+        attribute: so.attribute,
+        label: so.label,
+        order: so.direction,
+      } as SortOption;
+    });
+
+  const options = map(available, (option, key) => {
     return (
       <option key={key} value={key}>
         {option.label}
@@ -10,7 +27,7 @@ const SortOrder = (props: SortOrderProps) => {
     );
   });
 
-  const activeKey = findIndex(props.available, (order) => {
+  const activeKey = findIndex(available, (order) => {
     return (
       order.attribute == props.active?.attribute &&
       order.order == props.active?.order
@@ -28,7 +45,7 @@ const SortOrder = (props: SortOrderProps) => {
             className="form-select form-select--small"
             defaultValue={activeKey}
             onChange={(event) => {
-              const active = props.available[Number(event.target.value)];
+              const active = available[Number(event.target.value)];
               if (active) {
                 props.setActive(makeActive(active));
               }
@@ -42,4 +59,4 @@ const SortOrder = (props: SortOrderProps) => {
   );
 };
 
-export default SortOrder;
+export default BigCommerceConfiguration(SortOrder);
