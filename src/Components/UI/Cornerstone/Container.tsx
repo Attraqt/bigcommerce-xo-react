@@ -5,7 +5,7 @@ import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import Pagination from "./Pagination";
 import { withSearchProps } from "../../WithSearch";
-import { BigCommerceConfigurationProps } from "../../Data/BigCommerceConfiguration";
+import { BigCommerceConfigurationProps } from "../../Data/WithBigCommerceConfiguration";
 
 type AllProps = { facetResolver: FacetResolver } & withSearchProps &
   Partial<BigCommerceConfigurationProps>;

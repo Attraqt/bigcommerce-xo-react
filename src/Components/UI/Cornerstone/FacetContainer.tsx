@@ -9,7 +9,7 @@ import FacetBasic from "./Facets/FacetBasic";
 import BigCommerceConfiguration, {
   BigCommerceConfigurationProps,
   BigCommerceXOConfig,
-} from "../../Data/BigCommerceConfiguration";
+} from "../../Data/WithBigCommerceConfiguration";
 
 const facetResolverFactory = (config: BigCommerceXOConfig): FacetResolver => {
   return (f: Facet) => FacetBasic;

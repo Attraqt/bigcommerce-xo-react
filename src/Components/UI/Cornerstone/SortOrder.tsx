@@ -1,7 +1,7 @@
 import { map, findIndex } from "lodash";
 import BigCommerceConfiguration, {
   BigCommerceConfigurationProps,
-} from "../../Data/BigCommerceConfiguration";
+} from "../../Data/WithBigCommerceConfiguration";
 import { makeActive, SortOption, SortOrderProps } from "../../Data/SortOrder";
 
 const SortOrder = (
