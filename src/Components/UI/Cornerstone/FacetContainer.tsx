@@ -16,7 +16,7 @@ const facetResolverFactory = (config: BigCommerceXOConfig): FacetResolver => {
 };
 
 const FacetContainer = (
-  props: FacetContainerProps & Partial<BigCommerceConfigurationProps>
+  props: FacetContainerProps & BigCommerceConfigurationProps
 ) => {
   const controller = new FacetController(props);
   const componentResolver: FacetResolver = facetResolverFactory(
@@ -55,4 +55,4 @@ const FacetContainer = (
   );
 };
 
-export default BigCommerceConfiguration(FacetContainer);
+export default FacetContainer;

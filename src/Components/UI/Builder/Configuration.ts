@@ -11,7 +11,7 @@ export type Configuration = {
   };
   componentMap: {
     pagination: React.FC<PaginationProps>;
-    sort: React.FC<SortOrderProps>;
+    sort: React.FC<SortOrderProps & any>;
     grid: React.FC<ItemGridProps>;
     facets: React.FC<FacetContainerProps>;
     summary: React.FC<withSearchProps>;

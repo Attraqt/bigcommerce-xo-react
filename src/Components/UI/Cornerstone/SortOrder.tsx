@@ -1,12 +1,8 @@
 import { map, findIndex } from "lodash";
-import BigCommerceConfiguration, {
-  BigCommerceConfigurationProps,
-} from "../../Data/WithBigCommerceConfiguration";
+import { BigCommerceConfigurationProps } from "../../Data/WithBigCommerceConfiguration";
 import { makeActive, SortOption, SortOrderProps } from "../../Data/SortOrder";
 
-const SortOrder = (
-  props: SortOrderProps & Partial<BigCommerceConfigurationProps>
-) => {
+const SortOrder = (props: SortOrderProps & BigCommerceConfigurationProps) => {
   const available: SortOption[] = (
     props.bigCommerceConfig?.customSortOptions ?? []
   )
@@ -59,4 +55,4 @@ const SortOrder = (
   );
 };
 
-export default BigCommerceConfiguration(SortOrder);
+export default SortOrder;

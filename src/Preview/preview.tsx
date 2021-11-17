@@ -14,6 +14,8 @@ import ConfigurableContainer from "../Components/UI/Builder/ConfigurableContaine
 import { Configuration } from "../Components/UI/Builder/Configuration";
 import withSearch, { FixedState, SearchState } from "../Components/WithSearch";
 import { toSearchState, toURL } from "../State/transformer";
+import _ from "lodash";
+import { withBigCommerceConfiguration } from "..";
 
 enum PreviewType {
   BASIC,
@@ -46,13 +48,10 @@ const type: PreviewType = PreviewType.CONFIGURABLE;
 
 switch (Number(type)) {
   case PreviewType.BASIC: {
-    const SearchContainer = withSearch(
-      BasicContainer,
-      api,
-      initialState,
-      fixedState,
-      {}
-    );
+    const SearchContainer = _.flowRight(
+      withSearch(api, initialState, fixedState, {}),
+      withBigCommerceConfiguration()
+    )(BasicContainer);
 
     ReactDOM.render(<SearchContainer />, document.getElementById("app"));
 
@@ -74,15 +73,17 @@ switch (Number(type)) {
       },
     };
 
-    const Container = withSearch(
-      ConfigurableContainer,
-      api,
-      initialState,
-      fixedState,
-      { clearItemsOnNewPage: !loadMore },
-      toURL,
-      toSearchState
-    );
+    const Container = _.flowRight(
+      withSearch<{ config: Configuration }>(
+        api,
+        initialState,
+        fixedState,
+        { clearItemsOnNewPage: !loadMore },
+        toURL,
+        toSearchState
+      ),
+      withBigCommerceConfiguration()
+    )(ConfigurableContainer);
 
     ReactDOM.render(
       <Container config={builderConfig} />,

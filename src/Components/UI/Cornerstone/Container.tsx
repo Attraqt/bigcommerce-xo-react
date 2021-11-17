@@ -8,7 +8,7 @@ import { withSearchProps } from "../../WithSearch";
 import { BigCommerceConfigurationProps } from "../../Data/WithBigCommerceConfiguration";
 
 type AllProps = { facetResolver: FacetResolver } & withSearchProps &
-  Partial<BigCommerceConfigurationProps>;
+  BigCommerceConfigurationProps;
 
 const Container = (props: AllProps) => {
   return (

@@ -18,26 +18,29 @@ const ConfigurableContainer = (props: ContainerProps) => {
         active={props.activeSortOrder}
         setActive={props.setActiveSortOrder}
         isLoading={props.loading}
+        {...props}
       />
       <Facets
         active={props.selectedFacets}
         available={props.facets}
         setActive={props.setSelectedFacets}
         isLoading={props.loading}
+        {...props}
       />
       <ItemGrid
-        items={props.items}
         componentMap={{
           contentCard: props.config.componentMap.contentCard,
           productCard: props.config.componentMap.productCard,
         }}
         isLoading={props.loading}
+        {...props}
       />
       <Pagination
         current={props.currentPage}
         total={props.totalPages}
         setCurrent={props.setCurrentPage}
         isLoading={props.loading}
+        {...props}
       />
     </div>
   );

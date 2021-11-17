@@ -26,26 +26,30 @@ export type BigCommerceConfigurationProps = {
   bigCommerceConfig: BigCommerceXOConfig;
 };
 
-const withBigCommerceConfiguration = <T,>(
-  Component: React.ComponentType<T>
-) => {
-  const WrappedComponent = (props: T) => {
-    const [config, setConfig] = useState<BigCommerceXOConfig>();
+const withBigCommerceConfiguration = <T,>() => {
+  return (
+    Component: React.ComponentType<T & BigCommerceConfigurationProps>
+  ) => {
+    const WrappedWithBigCommerceConfiguration = (props: T) => {
+      const [config, setConfig] = useState<BigCommerceXOConfig>({});
 
-    document.addEventListener("xobc:config", () => {
-      setConfig(window.xoConfig);
-    });
-
-    useEffect(() => {
-      if (window.xoConfig !== undefined) {
+      document.addEventListener("xobc:config", () => {
         setConfig(window.xoConfig);
-      }
-    }, []);
+      });
 
-    return <Component bigCommerceConfig={config} {...props}></Component>;
+      useEffect(() => {
+        if (window.xoConfig !== undefined) {
+          setConfig(window.xoConfig);
+        }
+      }, []);
+
+      return (
+        <Component bigCommerceConfig={config} {...(props as T)}></Component>
+      );
+    };
+
+    return WrappedWithBigCommerceConfiguration;
   };
-
-  return WrappedComponent;
 };
 
 export default withBigCommerceConfiguration;
