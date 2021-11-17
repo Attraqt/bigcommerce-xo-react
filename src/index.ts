@@ -27,6 +27,8 @@ export { default as Price } from "./Components/UI/Basic/Item/Price";
 export { default as PaginationBasic } from "./Components/UI/Basic/Pagination/PaginationBasic";
 export { default as PaginationLoadMore } from "./Components/UI/Basic/Pagination/PaginationLoadMore";
 
+export { default as withBigCommerceConfiguration } from "./Components/Data/WithBigCommerceConfiguration";
+
 export { default as CornerstoneContainer } from "./Components/UI/Cornerstone/Container";
 export { default as CornerstoneFacetContainer } from "./Components/UI/Cornerstone/FacetContainer";
 export { default as CornerstoneFacetBasic } from "./Components/UI/Cornerstone/Facets/FacetBasic";

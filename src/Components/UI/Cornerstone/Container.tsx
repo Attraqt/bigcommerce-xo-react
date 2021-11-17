@@ -5,8 +5,10 @@ import ItemGrid from "./ItemGrid";
 import SortOrder from "./SortOrder";
 import Pagination from "./Pagination";
 import { withSearchProps } from "../../WithSearch";
+import { BigCommerceConfigurationProps } from "../../Data/BigCommerceConfiguration";
 
-type AllProps = { facetResolver: FacetResolver } & withSearchProps;
+type AllProps = { facetResolver: FacetResolver } & withSearchProps &
+  Partial<BigCommerceConfigurationProps>;
 
 const Container = (props: AllProps) => {
   return (
@@ -18,6 +20,7 @@ const Container = (props: AllProps) => {
           setActive={props.setSelectedFacets}
           isLoading={props.loading}
           facetComponentResolver={props.facetResolver}
+          bigCommerceConfig={props.bigCommerceConfig}
         />
       </aside>
       <div className="page-content" id="product-listing-container">
@@ -27,6 +30,7 @@ const Container = (props: AllProps) => {
               active={props.activeSortOrder}
               setActive={props.setActiveSortOrder}
               isLoading={props.loading}
+              bigCommerceConfig={props.bigCommerceConfig}
             />
             <ItemGrid items={props.items} isLoading={props.loading} />
             <Pagination

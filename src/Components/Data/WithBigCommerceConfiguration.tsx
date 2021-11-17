@@ -26,7 +26,9 @@ export type BigCommerceConfigurationProps = {
   bigCommerceConfig: BigCommerceXOConfig;
 };
 
-const BigCommerceConfiguration = <T,>(Component: React.ComponentType<T>) => {
+const withBigCommerceConfiguration = <T,>(
+  Component: React.ComponentType<T>
+) => {
   const WrappedComponent = (props: T) => {
     const [config, setConfig] = useState<BigCommerceXOConfig>();
 
@@ -46,4 +48,4 @@ const BigCommerceConfiguration = <T,>(Component: React.ComponentType<T>) => {
   return WrappedComponent;
 };
 
-export default BigCommerceConfiguration;
+export default withBigCommerceConfiguration;
