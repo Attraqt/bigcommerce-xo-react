@@ -20,7 +20,7 @@ enum PreviewType {
   CONFIGURABLE,
 }
 
-const api = new Client("60eff59fc82a20b7044bd0e9");
+const api = new Client("6051c020cdf2f91094b2ede1");
 const sort: SortOption[] = [
   {
     attribute: "title",
@@ -35,12 +35,11 @@ const sort: SortOption[] = [
 ];
 
 const initialState: SearchState = {
-  query: "to",
   pageSize: 32,
 };
 
 const fixedState: FixedState = {
-  // filter: "categryid = 123"
+  filter: "kind != variant",
 };
 
 const type: PreviewType = PreviewType.CONFIGURABLE;
