@@ -10,6 +10,7 @@ type CustomFacet = {
   attribute: string;
   ui: string;
   sortOrder: number;
+  isFilter: boolean;
 };
 
 export type BigCommerceXOConfig = {

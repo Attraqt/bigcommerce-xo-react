@@ -17,6 +17,13 @@ export type SelectedFacet = {
   values: SelectedFacetValues;
 };
 
+export type FilterFacet = {
+  id: string;
+  title: string;
+  ui: string;
+  toFilterQuery: (values: string[]) => string;
+}
+
 type SelectedFacetValues = string[];
 
 export type FacetContainerProps = {
@@ -29,7 +36,7 @@ export type FacetContainerProps = {
   isLoading: boolean;
 };
 
-export type FacetResolver = (facet: Facet) => React.FC<FacetProps>;
+export type FacetResolver = (facet: Facet) => React.FC<FacetProps> | undefined;
 
 export type FacetProps = {
   facet: Facet;
@@ -41,7 +48,7 @@ export type FacetProps = {
 };
 
 export class FacetController {
-  constructor(private props: FacetContainerProps) {}
+  constructor(private props: FacetContainerProps) { }
 
   updateSelected(facet: Pick<Facet, "id">, value: string) {
     const selectedFacets = clone(this.props.active);
