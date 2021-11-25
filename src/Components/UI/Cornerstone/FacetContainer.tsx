@@ -35,9 +35,9 @@ const FacetContainer = (
   props: FacetContainerProps & BigCommerceConfigurationProps
 ) => {
   const controller = new FacetController(props);
-  const componentResolver: FacetResolver = facetResolverFactory(
-    props?.bigCommerceConfig || {}
-  );
+  const componentResolver: FacetResolver =
+    props.facetComponentResolver ||
+    facetResolverFactory(props?.bigCommerceConfig || {});
 
   const getFacetConfig = (attribute: string) =>
     props.bigCommerceConfig.customFacetConfigurations?.find(
