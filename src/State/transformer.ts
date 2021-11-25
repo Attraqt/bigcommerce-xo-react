@@ -15,7 +15,7 @@ export const toSearchState = (url: string): SearchState => {
   const params = oUrl.searchParams;
   const state: SearchState = {};
 
-  let query = params.get("query");
+  let query = params.get("search_query");
   let sort = params.get("sort");
   let page = params.get("page");
   let pageSize = params.get("pageSize");
@@ -70,7 +70,7 @@ export const toURL = (state: SearchState): string => {
   const params: any = {};
 
   if (state.query && state.query !== QUERY_ANY) {
-    params.query = state.query;
+    params.search_query = state.query;
   }
 
   if (state.activeSortOrder && !isEmpty(state.activeSortOrder)) {
