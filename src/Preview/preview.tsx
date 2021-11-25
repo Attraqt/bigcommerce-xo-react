@@ -15,11 +15,12 @@ import { Configuration } from "../Components/UI/Builder/Configuration";
 import withSearch, { FixedState, SearchState } from "../Components/WithSearch";
 import { toSearchState, toURL } from "../State/transformer";
 import _ from "lodash";
-import { withBigCommerceConfiguration } from "..";
+import { CornerstoneContainer, withBigCommerceConfiguration } from "..";
 
 enum PreviewType {
   BASIC,
   CONFIGURABLE,
+  BIGCOMMERCE,
 }
 
 const api = new Client("6051c020cdf2f91094b2ede1");
@@ -44,7 +45,7 @@ const fixedState: FixedState = {
   filter: "kind != variant",
 };
 
-const type: PreviewType = PreviewType.CONFIGURABLE;
+const type: PreviewType = PreviewType.BIGCOMMERCE;
 
 switch (Number(type)) {
   case PreviewType.BASIC: {
@@ -92,4 +93,84 @@ switch (Number(type)) {
 
     break;
   }
+
+  case PreviewType.BIGCOMMERCE: {
+    const SearchContainer = _.flowRight(
+      withSearch(api, initialState, fixedState, {}),
+      withBigCommerceConfiguration()
+    )(CornerstoneContainer);
+
+    ReactDOM.render(<SearchContainer />, document.getElementById("app"));
+
+    break;
+  }
 }
+
+(function (d, w) {
+  w.xoConfig = {
+    trackerKey: "",
+    searchEnabled: false,
+    searchToken: "6051c020cdf2f91094b2ede1",
+    currency: {
+      alpha: "GBP",
+      symbol: "£",
+    },
+    customer: {
+      id: "",
+    },
+    taxRate: 0,
+    pageContext: {
+      pageType: "default",
+      inPageBuilder: false,
+      orderConfirmation: {
+        orderId: "",
+      },
+      product: {
+        sku: "",
+        id: "",
+      },
+      cart: {
+        items: "",
+        grand_total: "",
+      },
+    },
+    customWidgetTemplates: {},
+    customSortOptions: [
+      {
+        label: "Price Descending",
+        attribute: "price",
+        direction: "desc",
+        sortOrder: 0,
+      },
+      {
+        label: "Price Ascending",
+        attribute: "price",
+        direction: "asc",
+        sortOrder: 1,
+      },
+    ],
+    customFacetConfigurations: [
+      {
+        isFilter: false,
+        attribute: "recommended",
+        ui: "basic",
+        sortOrder: 0,
+      },
+      {
+        isFilter: false,
+        attribute: "weight",
+        ui: "weight_facet_ui",
+        sortOrder: 1,
+      },
+      {
+        isFilter: false,
+        attribute: "height",
+        ui: "datalist",
+        sortOrder: 50,
+      },
+    ],
+  } as any;
+  d.dispatchEvent(
+    new CustomEvent("xobc:config", { config: w.xoConfig } as any)
+  );
+})(document, window);
