@@ -29,11 +29,16 @@ export type withSearchProps = {
   selectedFacets: SelectedFacet[];
   setSelectedFacets: (value: SelectedFacet[]) => unknown;
 
+  filter: Filter[];
+  setFilter: (value: Filter[]) => unknown;
+
   items: Item[];
   totalItems: number;
   pageItemNumberStart: number;
   pageItemNumberEnd: number;
 };
+
+export type Filter = { id: string; filter: string };
 
 export type SearchState = {
   query?: string;
@@ -114,6 +119,8 @@ const withSearch = <T,>(
         initialState.selectedFacets ?? []
       );
 
+      const [filter, setFilter] = useState<Filter[]>([]);
+
       const setSelectedFacets = (data: SelectedFacet[]) => {
         // Keep our internal representation of the selected facets in a deterministic order so we don't trigger
         // any useEffect calls unnecessarily.
@@ -164,6 +171,10 @@ const withSearch = <T,>(
         } else if (initialState.selectedFacets) {
           setSelectedFacets(initialState.selectedFacets);
         }
+
+        if (permanentState.filter) {
+          setFilter([{ id: "permanent", filter: permanentState.filter }]);
+        }
       }, []);
 
       useEffect(() => {
@@ -193,7 +204,7 @@ const withSearch = <T,>(
             perPage,
             sort ? [sort] : [],
             selectedFacets,
-            permanentState.filter
+            filter.map((f) => f.filter).join(" AND ")
           )
           .send()
           .then((response) => {
@@ -267,6 +278,8 @@ const withSearch = <T,>(
           facets={facets}
           selectedFacets={selectedFacets}
           setSelectedFacets={setSelectedFacets}
+          filter={filter}
+          setFilter={setFilter}
           {...(props as T)}
         ></WrappedComponent>
       );
