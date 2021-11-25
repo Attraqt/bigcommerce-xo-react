@@ -6,3 +6,7 @@ This repository provides some standard React-based UI and data components that c
 
     npm install react react-dom
     npm run serve
+
+## Usage
+
+See the [documentation](./docs/introduction.md).
