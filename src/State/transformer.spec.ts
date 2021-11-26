@@ -20,7 +20,7 @@ describe("State\\transformer::toURL", () => {
       toURL({
         query: "hello world",
       })
-    ).toBe("?query=hello+world");
+    ).toBe("?search_query=hello+world");
 
     expect(
       toURL({
@@ -82,7 +82,7 @@ describe("State\\transformer::toURL", () => {
         ],
       })
     ).toBe(
-      "?query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=aaa%3Atest%7Cfacet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Aa%2Cb%2Cc"
+      "?search_query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=aaa%3Atest%7Cfacet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Aa%2Cb%2Cc"
     );
   });
 });
@@ -91,7 +91,7 @@ describe("State\\transformer::toSearchState", () => {
   test("converts a URL successfully", () => {
     expect(
       toSearchState(
-        "http://test.com/?query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=facet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Ab%2Ca%2Cc%7Caaa%3Atest"
+        "http://test.com/?search_query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=facet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Ab%2Ca%2Cc%7Caaa%3Atest"
       )
     ).toEqual({
       query: "hello world",
