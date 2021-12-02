@@ -163,9 +163,9 @@ switch (Number(type)) {
         sortOrder: 1,
       },
       {
-        isFilter: false,
-        attribute: "height",
-        ui: "datalist",
+        isFilter: true,
+        attribute: "price",
+        ui: "minmax",
         sortOrder: 50,
       },
     ],
