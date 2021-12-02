@@ -14,7 +14,6 @@ import {
 } from "../../Data/WithBigCommerceConfiguration";
 import FacetDataList from "../Basic/Facet/FacetDataList";
 import FilterMinMax from "../Basic/Filter/FilterMinMax";
-import { filter } from "lodash";
 
 const facetResolverFactory = (config: BigCommerceXOConfig): FacetResolver => {
   return (ui: string, isFilter: boolean) => {
@@ -42,6 +41,7 @@ const FacetContainer = (
   const componentResolver: FacetResolver =
     props.facetComponentResolver ||
     facetResolverFactory(props?.bigCommerceConfig || {});
+
   const facets = props.bigCommerceConfig.customFacetConfigurations?.map(
     (customFacet, index) => {
       const isFilter = customFacet.isFilter;
@@ -58,7 +58,7 @@ const FacetContainer = (
       if (!FacetComponent) return;
 
       const componentProps: FacetProps = {
-        title: facet?.title || "Undefined Title",
+        title: facet?.title || customFacet.attribute,
         id: facet?.id || customFacet.attribute,
         isFilter,
         isLoading: props.isLoading,
