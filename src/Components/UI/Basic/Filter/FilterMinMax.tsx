@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { FacetProps } from "../../../Data/Facet";
+import debounce from "lodash/debounce";
 
 const FilterMinMax = (props: FacetProps) => {
   const [min, setMin] = useState<number | undefined>();
   const [max, setMax] = useState<number | undefined>();
+
+  const setMinDebounced = debounce(setMin, 250);
+  const setMaxDebounced = debounce(setMax, 250);
 
   useEffect(() => {
     const minMatch = props.selectedFilter?.match(
@@ -50,7 +54,9 @@ const FilterMinMax = (props: FacetProps) => {
           readOnly={props.isLoading}
           defaultValue={min}
           onChange={(e) => {
-            setMin(e.target.value !== "" ? Number(e.target.value) : undefined);
+            setMinDebounced(
+              e.target.value !== "" ? Number(e.target.value) : undefined
+            );
           }}
         />{" "}
         to{" "}
@@ -60,7 +66,9 @@ const FilterMinMax = (props: FacetProps) => {
           readOnly={props.isLoading}
           defaultValue={max}
           onChange={(e) => {
-            setMax(e.target.value !== "" ? Number(e.target.value) : undefined);
+            setMaxDebounced(
+              e.target.value !== "" ? Number(e.target.value) : undefined
+            );
           }}
         />
       </div>
