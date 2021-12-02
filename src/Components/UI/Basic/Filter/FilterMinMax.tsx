@@ -9,12 +9,14 @@ const FilterMinMax = (props: FacetProps) => {
   const setMinDebounced = debounce(setMin, 250);
   const setMaxDebounced = debounce(setMax, 250);
 
+  const attribute = props.id.toLowerCase().replace(/^facet-/, "");
+
   useEffect(() => {
     const minMatch = props.selectedFilter?.match(
-      new RegExp(`${props.id.toLowerCase()} >= (-?\\d+)`)
+      new RegExp(`${attribute} >= (-?\\d+)`)
     );
     const maxMatch = props.selectedFilter?.match(
-      new RegExp(`${props.id.toLowerCase()} <= (-?\\d+)`)
+      new RegExp(`${attribute} <= (-?\\d+)`)
     );
 
     if (minMatch) {
@@ -30,11 +32,11 @@ const FilterMinMax = (props: FacetProps) => {
     const parts = [];
 
     if (min !== undefined) {
-      parts.push(`${props.id.toLowerCase()} >= ${min}`);
+      parts.push(`${attribute} >= ${min}`);
     }
 
     if (max !== undefined) {
-      parts.push(`${props.id.toLowerCase()} <= ${max}`);
+      parts.push(`${attribute} <= ${max}`);
     }
 
     props.updateSelectedFilter &&
