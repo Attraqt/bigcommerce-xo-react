@@ -19,6 +19,7 @@ export { default as Summary } from "./Components/UI/Basic/Summary";
 
 export { default as FacetBasic } from "./Components/UI/Basic/Facet/FacetBasic";
 export { default as FacetDataList } from "./Components/UI/Basic/Facet/FacetDataList";
+export { default as FilterMinMax } from "./Components/UI/Basic/Filter/FilterMinMax";
 
 export { default as ContentCard } from "./Components/UI/Basic/Item/ContentCard";
 export { default as ProductCard } from "./Components/UI/Basic/Item/ProductCard";

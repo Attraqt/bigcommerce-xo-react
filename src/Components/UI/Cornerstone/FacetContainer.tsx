@@ -45,7 +45,9 @@ const FacetContainer = (
   const facets = props.bigCommerceConfig.customFacetConfigurations?.map(
     (customFacet, index) => {
       const isFilter = customFacet.isFilter;
-      const facet = props.available.find((f) => f.id === customFacet.attribute);
+      const facet = props.available.find(
+        (f) => f.id === `facet-${customFacet.attribute}`
+      );
       const isInResponse = facet !== undefined;
 
       if (!isFilter && !isInResponse) return;
