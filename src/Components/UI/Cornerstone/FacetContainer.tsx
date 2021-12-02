@@ -76,8 +76,8 @@ const FacetContainer = (
       } else {
         componentProps.availableValues = facet?.values || [];
         componentProps.selectedValues =
-          props.active.find((a) => a.id === customFacet.attribute)?.values ||
-          [];
+          props.active.find((a) => a.id === `facet-${customFacet.attribute}`)
+            ?.values || [];
         componentProps.toggleSelectedValue = (value: string) => {
           facetController.updateSelected(facet!, value);
         };
