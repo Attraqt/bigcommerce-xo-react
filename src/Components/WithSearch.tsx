@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Client from "../Attraqt/Client";
-import { Facet, FacetResolver, SelectedFacet } from "./Data/Facet";
+import {
+  Facet,
+  Filter,
+  FilterSpecification,
+  SelectedFacet,
+} from "./Data/Facet";
 import { calculateMaxPages, calculatePage } from "./Data/Pagination";
 import { Item } from "./Data/Item";
 import { ActiveSortOption, SortOption } from "./Data/SortOrder";
@@ -38,18 +43,17 @@ export type withSearchProps = {
   pageItemNumberEnd: number;
 };
 
-export type Filter = { id: string; filter: string };
-
 export type SearchState = {
   query?: string;
   activeSortOrder?: ActiveSortOption;
   currentPage?: number;
   pageSize?: number;
   selectedFacets?: SelectedFacet[];
+  filter?: Filter[];
 };
 
 export type FixedState = {
-  filter?: string;
+  filter?: FilterSpecification;
 };
 
 export type SearchConfiguration = {
@@ -172,8 +176,10 @@ const withSearch = <T,>(
           setSelectedFacets(initialState.selectedFacets);
         }
 
-        if (permanentState.filter) {
-          setFilter([{ id: "permanent", filter: permanentState.filter }]);
+        if (state.filter) {
+          setFilter(state.filter);
+        } else if (initialState.filter) {
+          setFilter(initialState.filter);
         }
       }, []);
 
@@ -204,7 +210,14 @@ const withSearch = <T,>(
             perPage,
             sort ? [sort] : [],
             selectedFacets,
-            filter.map((f) => f.filter).join(" AND ")
+            filter
+              .concat(
+                permanentState.filter
+                  ? { id: "permanent", filter: permanentState.filter }
+                  : []
+              )
+              .map((f) => f.filter)
+              .join(" AND ")
           )
           .send()
           .then((response) => {
@@ -238,7 +251,13 @@ const withSearch = <T,>(
           .finally(() => {
             setLoading(false);
           });
-      }, [query, sort, currentPage, JSON.stringify(selectedFacets)]);
+      }, [
+        query,
+        sort,
+        currentPage,
+        JSON.stringify(selectedFacets),
+        JSON.stringify(filter),
+      ]);
 
       useEffect(() => {
         const url = transformSearchStateToUrl({
@@ -247,10 +266,22 @@ const withSearch = <T,>(
           currentPage: currentPage,
           pageSize: perPage,
           selectedFacets: selectedFacets,
+          filter,
         });
 
-        window.history.replaceState({}, "", url);
-      }, [query, sort, currentPage, perPage, JSON.stringify(selectedFacets)]);
+        window.history.replaceState(
+          {},
+          "",
+          window.document.location.pathname + url
+        );
+      }, [
+        query,
+        sort,
+        currentPage,
+        perPage,
+        JSON.stringify(selectedFacets),
+        JSON.stringify(filter),
+      ]);
 
       return (
         <WrappedComponent

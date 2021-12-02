@@ -67,6 +67,24 @@ describe("State\\transformer::toURL", () => {
 
     expect(
       toURL({
+        filter: [{ id: "price", filter: "price > 100 AND price <= 200" }],
+      })
+    ).toBe("?filter=price%3Aprice+%3E+100+AND+price+%3C%3D+200");
+
+    expect(
+      toURL({
+        filter: [{ id: "price", filter: "price > 100 AND price <= 200" }, { id: "size", filter: "size = 1 OR size = 2 OR size = 3" }],
+      })
+    ).toBe("?filter=price%3Aprice+%3E+100+AND+price+%3C%3D+200%7Csize%3Asize+%3D+1+OR+size+%3D+2+OR+size+%3D+3");
+
+    expect(
+      toURL({
+        filter: [{ id: "price", filter: "price > 100 AND price <= 200" }, { id: "size", filter: "size = 1 OR size = 2 OR size = 3" }, { id: "permanent", filter: "categoryid = 3" }],
+      })
+    ).toBe("?filter=price%3Aprice+%3E+100+AND+price+%3C%3D+200%7Csize%3Asize+%3D+1+OR+size+%3D+2+OR+size+%3D+3");
+
+    expect(
+      toURL({
         query: "hello world",
         pageSize: 31,
         currentPage: 32,
@@ -91,7 +109,7 @@ describe("State\\transformer::toSearchState", () => {
   test("converts a URL successfully", () => {
     expect(
       toSearchState(
-        "http://test.com/?search_query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=facet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Ab%2Ca%2Cc%7Caaa%3Atest"
+        "http://test.com/?search_query=hello+world&sort=test%3Adesc&page=32&pageSize=31&facets=facet_1%3Aone%2Ctwo%7Cfacet_2%3Afour%2Cthree%7Czzz%3Ab%2Ca%2Cc%7Caaa%3Atest&filter=price:price > 100 AND price <= 200"
       )
     ).toEqual({
       query: "hello world",
@@ -107,6 +125,9 @@ describe("State\\transformer::toSearchState", () => {
         { id: "facet_2", values: ["four", "three"] },
         { id: "zzz", values: ["a", "b", "c"] },
       ],
+      filter: [
+        { id: "price", filter: "price > 100 AND price <= 200" }
+      ]
     });
   });
 });

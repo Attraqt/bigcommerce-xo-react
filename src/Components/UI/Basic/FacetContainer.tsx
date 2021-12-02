@@ -3,7 +3,7 @@ import { find } from "lodash";
 import FacetBasic from "./Facet/FacetBasic";
 
 const FacetContainer = (props: FacetContainerProps) => {
-  const controller = new FacetController(props);
+  const facetController = new FacetController(props);
   const componentResolver = (f: Facet) => FacetBasic;
 
   const facets = props.available.map((facet, index) => {
@@ -15,11 +15,13 @@ const FacetContainer = (props: FacetContainerProps) => {
     return (
       <div key={index}>
         <FacetComponent
-          facet={facet}
+          id={facet.id}
+          title={facet.title}
           selectedValues={selectedFacet ? selectedFacet.values : []}
           toggleSelectedValue={(value: string) => {
-            controller.updateSelected(facet, value);
+            facetController.updateSelected(facet, value);
           }}
+          isFilter={false}
           isLoading={props.isLoading}
         />
       </div>

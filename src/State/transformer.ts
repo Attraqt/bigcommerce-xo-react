@@ -1,13 +1,16 @@
 import { SearchState } from "../Components/WithSearch";
-import { isEmpty } from "lodash";
+import { filter, isEmpty } from "lodash";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
-import { SelectedFacet } from "../Components/Data/Facet";
+import { Filter, SelectedFacet } from "../Components/Data/Facet";
 import { forEach } from "lodash";
 
 const QUERY_ANY = "*";
 const PAGE_SIZE_DEFAULT = 32;
 
 const facetSorter = (a: SelectedFacet, b: SelectedFacet) =>
+  a.id.toUpperCase() > b.id.toUpperCase() ? 1 : -1;
+
+const filterSorter = (a: Filter, b: Filter) =>
   a.id.toUpperCase() > b.id.toUpperCase() ? 1 : -1;
 
 export const toSearchState = (url: string): SearchState => {
@@ -20,6 +23,7 @@ export const toSearchState = (url: string): SearchState => {
   let page = params.get("page");
   let pageSize = params.get("pageSize");
   let facets = params.get("facets");
+  let filter = params.get("filter");
 
   if (query) {
     state.query = query;
@@ -63,6 +67,19 @@ export const toSearchState = (url: string): SearchState => {
       .sort(facetSorter);
   }
 
+  if (filter) {
+    state.filter = filter
+      .split("|")
+      .map((data) => {
+        const [attr, value] = data.split(":");
+        return {
+          id: attr,
+          filter: value,
+        } as Filter;
+      })
+      .sort(filterSorter);
+  }
+
   return state;
 };
 
@@ -86,12 +103,24 @@ export const toURL = (state: SearchState): string => {
   }
 
   if (state.selectedFacets && !isEmpty(state.selectedFacets)) {
-    params.facets = state.selectedFacets
+    const facetString = state.selectedFacets
       .sort(facetSorter)
       .map((f) => {
         return `${f.id}:${f.values.sort()}`;
       })
       .join("|");
+
+    if (facetString) {
+      params.facets = facetString;
+    }
+  }
+
+  if (state.filter && !isEmpty(state.filter)) {
+    const filterString = state.filter.filter((f) => f.id != "permanent").sort(filterSorter).map((f) => { return `${f.id}:${f.filter}` }).join("|");
+
+    if (filterString) {
+      params.filter = filterString;
+    }
   }
 
   const searchParams = new URLSearchParams();

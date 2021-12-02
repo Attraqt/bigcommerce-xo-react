@@ -7,6 +7,9 @@ export type Facet = {
   values: FacetOption[];
 };
 
+export type FilterSpecification = string;
+export type Filter = { id: string; filter: FilterSpecification };
+
 export type FacetOption = {
   value: string;
   count: number;
@@ -33,22 +36,31 @@ export type FacetContainerProps = {
   setActive: (value: SelectedFacet[]) => unknown;
   facetComponentResolver?: FacetResolver;
 
+  filter: Filter[];
+  setFilter: (filter: Filter[]) => unknown;
+
   isLoading: boolean;
 };
 
-export type FacetResolver = (facet: Facet) => React.FC<FacetProps> | undefined;
+export type FacetResolver = (...params: any) => React.FC<FacetProps> | undefined;
 
 export type FacetProps = {
-  facet: Facet;
-  selectedValues: SelectedFacetValues;
+  id: string;
+  title: string;
 
-  toggleSelectedValue: (value: string) => unknown;
+  availableValues?: FacetOption[];
+  selectedValues?: SelectedFacetValues;
+  toggleSelectedValue?: (value: string) => unknown;
 
+  selectedFilter?: string;
+  updateSelectedFilter?: (value: FilterSpecification) => unknown;
+
+  isFilter: boolean;
   isLoading: boolean;
 };
 
 export class FacetController {
-  constructor(private props: FacetContainerProps) { }
+  constructor(private props: Pick<FacetContainerProps, "active" | "setActive">) { }
 
   updateSelected(facet: Pick<Facet, "id">, value: string) {
     const selectedFacets = clone(this.props.active);
@@ -86,5 +98,25 @@ export class FacetController {
     }
 
     return selectedFacet.values.includes(value);
+  }
+}
+
+export class FilterController {
+  constructor(private props: Pick<FacetContainerProps, "filter" | "setFilter">) { }
+
+  /**
+   * 
+   * @param filterIdentifier A internal identifier for the filter. Doesn't affect the query.
+   * @param value 
+   */
+  updateSelected(filterIdentifier: string, value: FilterSpecification) {
+    // Existing filteres and remove the one we're going to update, if it's there.
+    const existingFilters = reject(clone(this.props.filter), (f) => f.id == filterIdentifier);
+
+    if (value.trim() != "") {
+      existingFilters.push({ id: filterIdentifier, filter: value.trim() });
+    }
+
+    this.props.setFilter(existingFilters);
   }
 }

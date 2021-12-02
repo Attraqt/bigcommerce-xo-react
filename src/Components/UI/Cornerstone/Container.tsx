@@ -18,6 +18,8 @@ const Container = (props: AllProps) => {
           active={props.selectedFacets}
           available={props.facets}
           setActive={props.setSelectedFacets}
+          filter={props.filter}
+          setFilter={props.setFilter}
           isLoading={props.loading}
           facetComponentResolver={props.facetResolver}
           bigCommerceConfig={props.bigCommerceConfig}
