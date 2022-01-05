@@ -17,8 +17,7 @@
     "version": "npm run format"
   },
   "keywords": [],
-  "author": "Nick Jones <nick@space48.com> (https://www.space48.com)",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "files": [
     "build/**/*"
   ],
