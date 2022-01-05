@@ -1,5 +1,5 @@
 {
-  "name": "@space48/xo-react",
+  "name": "@attraqt/bigcommerce-xo-react",
   "version": "0.13.0-alpha",
   "description": "React component library for implementing Attraqt XO.",
   "main": "build/index.js",
