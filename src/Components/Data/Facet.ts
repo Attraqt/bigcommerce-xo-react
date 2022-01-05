@@ -1,4 +1,4 @@
-import { clone, find, reject } from "lodash";
+import { clone, find, reject, uniq } from "lodash";
 import React from "react";
 
 export type Facet = {
@@ -58,6 +58,41 @@ export type FacetProps = {
   isFilter: boolean;
   isLoading: boolean;
 };
+
+/**
+ * @param base 
+ * @param additional 
+ * @returns 
+ */
+export const mergeSelectedFacets = (base: SelectedFacet[], additional: SelectedFacet[]) => {
+  const keys = uniq([...base.map(facet => facet.id), ...additional.map(facet => facet.id)]);
+
+  return keys.map(key => {
+    return {
+      id: key,
+      values: uniq([...base.find(facet => facet.id === key)?.values || [], ...additional.find(facet => facet.id === key)?.values || []])
+    } as SelectedFacet
+  });
+}
+
+/**
+ * 
+ * @param incoming 
+ * @param toUnmerge 
+ * @returns 
+ */
+export const unmergeSelectedFacets = (incoming: SelectedFacet[], toUnmerge: SelectedFacet[]) => {
+  return incoming.map(f => {
+    if (toUnmerge.find(a => a.id == f.id)) {
+      return {
+        id: f.id,
+        values: reject(f.values, v => toUnmerge.find(a => a.id == f.id)?.values?.includes(v))
+      } as SelectedFacet
+    }
+
+    return f;
+  }).filter(f => f.values.length > 0);
+}
 
 export class FacetController {
   constructor(private props: Pick<FacetContainerProps, "active" | "setActive">) { }

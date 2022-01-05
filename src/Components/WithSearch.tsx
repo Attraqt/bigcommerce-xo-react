@@ -4,7 +4,9 @@ import {
   Facet,
   Filter,
   FilterSpecification,
+  mergeSelectedFacets,
   SelectedFacet,
+  unmergeSelectedFacets,
 } from "./Data/Facet";
 import { calculateMaxPages, calculatePage } from "./Data/Pagination";
 import { Item } from "./Data/Item";
@@ -54,6 +56,7 @@ export type SearchState = {
 
 export type FixedState = {
   filter?: FilterSpecification;
+  permanentFacets?: SelectedFacet[];
 };
 
 export type SearchConfiguration = {
@@ -209,7 +212,10 @@ const withSearch = <T,>(
             (currentPage - 1) * perPage,
             perPage,
             sort ? [sort] : [],
-            selectedFacets,
+            mergeSelectedFacets(
+              selectedFacets,
+              permanentState.permanentFacets ?? []
+            ),
             filter
               .concat(
                 permanentState.filter
@@ -234,7 +240,12 @@ const withSearch = <T,>(
             );
             setTotalItems(response.metadata.count);
             setFacets(response.metadata.availableFacets);
-            setSelectedFacets(response.metadata.selectedFacets);
+            setSelectedFacets(
+              unmergeSelectedFacets(
+                response.metadata.selectedFacets,
+                permanentState.permanentFacets ?? []
+              )
+            );
 
             if (pageChanged) {
               if (searchConfiguration.clearItemsOnNewPage) {

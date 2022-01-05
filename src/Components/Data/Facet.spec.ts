@@ -1,4 +1,4 @@
-import { FacetController, Filter, FilterController, SelectedFacet } from "./Facet";
+import { FacetController, Filter, FilterController, mergeSelectedFacets, SelectedFacet, unmergeSelectedFacets } from "./Facet";
 
 describe("Components\\Data\\Facet\\FacetController::updateSelected", () => {
   test("Supports the first selected value of a facet", () => {
@@ -130,4 +130,116 @@ describe("Components\\Data\\Facet\\FilterController::updateSelected", () => {
 
     expect(updatedFilter).toStrictEqual([]);
   });
+});
+
+describe("Components\\Data\\Facet::mergeSelectedFacets", () => {
+  test("#1 Supports merging selected facets", () => {
+    expect(mergeSelectedFacets([], [])).toEqual([]);
+  })
+
+  test("#2a Supports merging selected facets", () => {
+    expect(mergeSelectedFacets([
+      { id: "test", values: ["a"] }
+    ], [])).toEqual([{ id: "test", values: ["a"] }]);
+  })
+
+  test("#2b Supports merging selected facets", () => {
+    expect(mergeSelectedFacets(
+      [],
+      [{ id: "test", values: ["a"] }]
+    )).toEqual([{ id: "test", values: ["a"] }]);
+  })
+
+  test("#3 Supports merging selected facets", () => {
+    expect(mergeSelectedFacets(
+      [{ id: "test", values: ["a"] }],
+      [{ id: "test2", values: ["b"] }]
+    )).toEqual([
+      { id: "test", values: ["a"] },
+      { id: "test2", values: ["b"] }
+    ]);
+  })
+
+  test("#4 Supports merging selected facets", () => {
+    expect(mergeSelectedFacets(
+      [{ id: "test", values: ["a"] }],
+      [{ id: "test", values: ["b"] }]
+    )).toEqual([
+      { id: "test", values: ["a", "b"] },
+    ]);
+  })
+
+  test("#5 Supports merging selected facets", () => {
+    expect(mergeSelectedFacets(
+      [{ id: "test", values: ["a"] }, { id: "test2", values: ["b", "a"] }],
+      [{ id: "test", values: ["b"] }]
+    )).toEqual([
+      { id: "test", values: ["a", "b"] },
+      { id: "test2", values: ["b", "a"] },
+    ]);
+  })
+
+  test("#6 Supports merging selected facets", () => {
+    expect(mergeSelectedFacets(
+      [{ id: "test", values: ["a"] }],
+      [{ id: "test", values: ["a"] }]
+    )).toEqual([
+      { id: "test", values: ["a"] },
+    ]);
+  })
+});
+
+describe("Components\\Data\\Facet::mergeSelectedFacets", () => {
+  test("#1 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets([], [])).toEqual([]);
+  })
+
+  test("#2 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a"] }],
+      [{ id: "test", values: ["a"] }]
+    )).toEqual([]);
+  })
+
+  test("#3 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a"] }],
+      [{ id: "test", values: ["b"] }]
+    )).toEqual([{ id: "test", values: ["a"] }]);
+  })
+
+  test("#4 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a", "b"] }],
+      [{ id: "test", values: ["b"] }]
+    )).toEqual([{ id: "test", values: ["a"] }]);
+  })
+
+  test("#5 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a", "b"] }, { id: "test2", values: ["a", "b"] }],
+      [{ id: "test", values: ["b"] }]
+    )).toEqual([{ id: "test", values: ["a"] }, { id: "test2", values: ["a", "b"] }]);
+  })
+
+  test("#6 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a", "b"] }, { id: "test2", values: ["a", "b"] }],
+      [{ id: "test", values: ["b", "a"] }]
+    )).toEqual([{ id: "test2", values: ["a", "b"] }]);
+  })
+
+  test("#7 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["a", "b"] }, { id: "test2", values: ["a", "b"] }],
+      [{ id: "test", values: ["a", "b"] }, { id: "test2", values: ["a", "b"] }],
+    )).toEqual([]);
+  })
+
+  test("#8 Supports unmerging selected facets", () => {
+    expect(unmergeSelectedFacets(
+      [{ id: "test", values: ["b", "a"] }, { id: "test2", values: ["a", "b"] }],
+      [{ id: "test", values: ["b"] }, { id: "test2", values: ["b"] }]
+    )).toEqual([{ id: "test", values: ["a"] }, { id: "test2", values: ["a"] }]);
+  })
 });
