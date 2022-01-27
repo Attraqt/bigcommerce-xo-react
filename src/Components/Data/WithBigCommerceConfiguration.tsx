@@ -21,6 +21,7 @@ export type BigCommerceXOConfig = {
     sortOrder: number;
   }[];
   customFacetConfigurations?: CustomFacet[];
+  searchToken?: string;
 };
 
 export type BigCommerceConfigurationProps = {
