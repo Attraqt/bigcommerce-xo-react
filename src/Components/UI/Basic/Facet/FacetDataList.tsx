@@ -13,7 +13,7 @@ const FacetDataList = (props: FacetProps) => {
     if (!searchTerm) {
       setValues(props.availableValues || []);
     }
-  }, []);
+  }, [props.availableValues]);
 
   useEffect(() => {
     setValues(
