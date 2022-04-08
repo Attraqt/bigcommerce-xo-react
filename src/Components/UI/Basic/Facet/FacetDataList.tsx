@@ -26,7 +26,7 @@ const FacetDataList = (props: FacetProps) => {
         return true;
       }) || []
     );
-  }, [searchTerm]);
+  }, [searchTerm, props.availableValues]);
 
   return (
     <div className="xo__facet xo__facet__data-list">
