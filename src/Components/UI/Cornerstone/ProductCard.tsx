@@ -19,7 +19,7 @@ const ProductCard = (props: ItemHandlerProps) => {
             {props.item.product?.title}
           </a>
         </h3>
-        <div className="card-text">£{props.item.product?.price_GBP}</div>
+        <div className="card-text">£{props.item.product?.price}</div>
       </div>
     </article>
   );

@@ -1,105 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>XO Search Preview</title>
-    <link
-      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      .xo__container {
-        display: grid;
-        grid-template-columns: minmax(200px, 25%) 1fr 1fr;
-        grid-template-rows: 1fr;
-        grid-template-areas:
-          "summary summary sort" "facets items items"
-          "pagination pagination pagination";
-        grid-gap: 5px;
-      }
+<head>
+  <title>XO Search Preview</title>
+  <link 
+  href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" 
+  rel="stylesheet" 
+  />
+  <style>
+    .xo__container {
+      display: grid;
+      grid-template-columns: minmax(200px, 25%) 1fr 1fr;
+      grid-template-rows: 1fr;
+      grid-template-areas:
+        "summary summary sort" "facets items items"
+        "pagination pagination pagination";
+      grid-gap: 5px;
+    }
 
-      .xo__summary {
-        grid-area: summary;
-      }
+    .xo__summary {
+      grid-area: summary;
+    }
 
-      .xo__pagination {
-        grid-area: pagination;
-      }
+    .xo__pagination {
+      grid-area: pagination;
+    }
 
-      .xo__sort {
-        grid-area: sort;
-        justify-self: end;
-      }
+    .xo__sort {
+      grid-area: sort;
+      justify-self: end;
+    }
 
-      .xo__facets {
-        grid-area: facets;
-      }
+    .xo__facets {
+      grid-area: facets;
+    }
 
-      .xo__facets div {
-        position: sticky;
-        top: 0;
-      }
+    .xo__facets div {
+      position: sticky;
+      top: 0;
+    }
 
-      .xo__facet {
-        margin-bottom: 10px;
-      }
+    .xo__facet {
+      margin-bottom: 10px;
+    }
 
-      .xo__facet__title {
-        font-weight: bold;
-      }
+    .xo__facet__title {
+      font-weight: bold;
+    }
 
-      .xo__facet__data-list input[type="text"] {
-        border: 1px solid #ddd;
-        padding: 3px;
-      }
+    .xo__facet__data-list input[type="text"] {
+      border: 1px solid #ddd;
+      padding: 3px;
+    }
 
-      .xo__filter__minmax div {
-        display: flex;
-        gap: 0.5rem;
-      }
+    .xo__filter__minmax div {
+      display: flex;
+      gap: 0.5rem;
+    }
 
-      .xo__filter__minmax input[type="number"] {
-        border: 1px solid #ddd;
-        padding: 3px;
-        max-width: 100%;
-        width: 3rem;
-      }
+    .xo__filter__minmax input[type="number"] {
+      border: 1px solid #ddd;
+      padding: 3px;
+      max-width: 100%;
+      width: 3rem;
+    }
 
-      .xo__item-grid {
-        grid-area: items;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        column-gap: 5px;
-        row-gap: 5px;
-      }
+    .xo__item-grid {
+      grid-area: items;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      column-gap: 5px;
+      row-gap: 5px;
+    }
 
-      .xo__pagination ul {
-        display: flex;
-        flex-wrap: wrap;
-      }
+    .xo__pagination ul {
+      display: flex;
+      flex-wrap: wrap;
+    }
 
-      .xo__pagination ul li:nth-child(n + 2) {
-        margin-left: 3px;
-      }
+    .xo__pagination ul li:nth-child(n + 2) {
+      margin-left: 3px;
+    }
 
-      .xo__pagination .pagination__page,
-      .xo__pagination .pagination__control {
-        cursor: pointer;
-      }
+    .xo__pagination .pagination__page,
+    .xo__pagination .pagination__control {
+      cursor: pointer;
+    }
 
-      .xo__pagination .pagination__page__current {
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container mx-auto p-8">
-      <header class="mb-8">
-        <h1 class="text-4xl font-bold">My eCommerce Site</h1>
-      </header>
-      <article class="mb-8">
-        <div id="app"></div>
-      </article>
-    </div>
-    <script src="/bundle.js"></script>
-  </body>
+    .xo__pagination .pagination__page__current {
+      font-weight: bold;
+    }
+
+    .facetedSearch-navList {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mx-auto p-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold">My eCommerce Site</h1>
+    </header>
+    <article class="mb-8">
+      <div id="app"></div>
+    </article>
+  </div>
+  <script src="/bundle.js"></script>
+</body>
 </html>

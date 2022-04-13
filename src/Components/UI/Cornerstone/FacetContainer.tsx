@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import {
   FacetContainerProps,
   FacetController,
@@ -43,10 +44,11 @@ const FacetContainer = (
     facetResolverFactory(props?.bigCommerceConfig || {});
 
   const facets = props.bigCommerceConfig.customFacetConfigurations?.map(
-    (customFacet, index) => {
+    (customFacet, index, customFacets) => {  
+      const isUniqueByAttribute = customFacets.filter((item)=> item.attribute === customFacet.attribute).length === 1;  
       const isFilter = customFacet.isFilter;
       const facet = props.available.find(
-        (f) => f.id === `facet-${customFacet.attribute}`
+        (f) => f.id === customFacet.id
       );
       const isInResponse = facet !== undefined;
 
@@ -61,22 +63,22 @@ const FacetContainer = (
 
       const componentProps: FacetProps = {
         title: facet?.title || customFacet.attribute,
-        id: facet?.id || customFacet.attribute,
+        id: isFilter && isUniqueByAttribute ? customFacet.attribute : facet?.id || customFacet.attribute,
         isFilter,
         isLoading: props.isLoading,
       };
 
       if (isFilter) {
         componentProps.selectedFilter =
-          props.filter.find((f) => f.id === customFacet.attribute)?.filter ??
+          props.filter.find((f) => f.id === customFacet.id)?.filter ??
           "";
         componentProps.updateSelectedFilter = (value: FilterSpecification) => {
-          filterController.updateSelected(customFacet.attribute, value);
+          filterController.updateSelected(customFacet.id, value);
         };
       } else {
         componentProps.availableValues = facet?.values || [];
         componentProps.selectedValues =
-          props.active.find((a) => a.id === `facet-${customFacet.attribute}`)
+          props.active.find((a) => a.id === customFacet.id)
             ?.values || [];
         componentProps.toggleSelectedValue = (value: string) => {
           facetController.updateSelected(facet!, value);

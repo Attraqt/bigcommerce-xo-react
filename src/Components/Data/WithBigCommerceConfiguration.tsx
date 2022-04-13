@@ -7,6 +7,7 @@ declare global {
 }
 
 type CustomFacet = {
+  id: string;
   attribute: string;
   ui: string;
   sortOrder: number;

@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import { useEffect, useState } from "react";
 import { FacetProps } from "../../../Data/Facet";
 import debounce from "lodash/debounce";
@@ -9,14 +10,14 @@ const FilterMinMax = (props: FacetProps) => {
   const setMinDebounced = debounce(setMin, 250);
   const setMaxDebounced = debounce(setMax, 250);
 
-  const attribute = props.id.toLowerCase().replace(/^facet-/, "");
+  const facetId = props.id.toLowerCase().replace(/^facet-/, "");
 
   useEffect(() => {
     const minMatch = props.selectedFilter?.match(
-      new RegExp(`${attribute} >= (-?\\d+)`)
+      new RegExp(`${facetId} >= (-?\\d+)`)
     );
     const maxMatch = props.selectedFilter?.match(
-      new RegExp(`${attribute} <= (-?\\d+)`)
+      new RegExp(`${facetId} <= (-?\\d+)`)
     );
 
     if (minMatch) {
@@ -32,11 +33,11 @@ const FilterMinMax = (props: FacetProps) => {
     const parts = [];
 
     if (min !== undefined) {
-      parts.push(`${attribute} >= ${min}`);
+      parts.push(`${facetId} >= ${min}`);
     }
 
     if (max !== undefined) {
-      parts.push(`${attribute} <= ${max}`);
+      parts.push(`${facetId} <= ${max}`);
     }
 
     props.updateSelectedFilter &&

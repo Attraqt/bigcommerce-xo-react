@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import Client, { SearchResponseMapper } from "./Client";
 
 describe("Attraqt\\Client::search", () => {
@@ -59,6 +60,7 @@ describe("Attraqt\\Client - SearchResponseMapper", () => {
           {
             id: "facet-1",
             title: "Facet One",
+            attribute: "facet-1-attribute",
             count: 1,
             values: [
               { value: "Value One", count: 100, selected: false },
@@ -75,6 +77,7 @@ describe("Attraqt\\Client - SearchResponseMapper", () => {
       {
         id: "facet-1",
         title: "Facet One",
+        attribute: "facet-1-attribute",
         values: [
           {
             value: "Value One",

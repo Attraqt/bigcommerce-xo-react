@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import { useEffect, useState } from "react";
 import { FacetOption, FacetProps } from "../../../Data/Facet";
 
