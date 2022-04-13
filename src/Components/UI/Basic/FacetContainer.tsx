@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import { Facet, FacetContainerProps, FacetController } from "../../Data/Facet";
 import { find } from "lodash";
 import FacetBasic from "./Facet/FacetBasic";

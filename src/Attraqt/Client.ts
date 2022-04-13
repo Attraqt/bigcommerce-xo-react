@@ -1,4 +1,6 @@
-import { pickBy, reject } from "lodash";
+/* eslint-disable lodash/prefer-lodash-method */
+import pickBy from "lodash/pickBy";
+import reject from "lodash/reject";
 import { Facet, SelectedFacet } from "../Components/Data/Facet";
 import { Item } from "../Components/Data/Item";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
@@ -16,6 +18,7 @@ type SearchResponseRaw = {
     facets: {
       id: string;
       title: string;
+      attribute: string;
       count: number;
       values: { value: string; count: number; selected: boolean }[];
     }[];
@@ -69,6 +72,7 @@ export const SearchResponseMapper = (
     return {
       id: facet.id,
       title: facet.title,
+      attribute: facet.attribute,
       values: facet.values.map((value) => {
         return { value: value.value, count: value.count };
       }),

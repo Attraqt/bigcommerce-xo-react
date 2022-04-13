@@ -1,8 +1,8 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import { SearchState } from "../Components/WithSearch";
-import { filter, isEmpty } from "lodash";
+import { filter, isEmpty, forEach } from "lodash";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
 import { Filter, SelectedFacet } from "../Components/Data/Facet";
-import { forEach } from "lodash";
 
 const QUERY_ANY = "*";
 const PAGE_SIZE_DEFAULT = 32;
@@ -56,11 +56,11 @@ export const toSearchState = (url: string): SearchState => {
     state.selectedFacets = facets
       .split("|")
       .map((data) => {
-        const [attr, valueString] = data.split(":");
+        const [id, valueString] = data.split(":");
         const values = valueString.split(",").sort();
 
         return {
-          id: attr,
+          id,
           values,
         } as SelectedFacet;
       })

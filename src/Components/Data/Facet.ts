@@ -1,4 +1,8 @@
-import { clone, find, reject, uniq } from "lodash";
+/* eslint-disable lodash/prefer-lodash-method */
+import clone from "lodash/clone";
+import find from "lodash/find";
+import reject from "lodash/reject";
+import uniq from "lodash/uniq";
 import React from "react";
 
 export type Facet = {
@@ -22,6 +26,7 @@ export type SelectedFacet = {
 
 export type FilterFacet = {
   id: string;
+  attribute: string;
   title: string;
   ui: string;
   toFilterQuery: (values: string[]) => string;
@@ -147,7 +152,7 @@ export class FilterController {
   updateSelected(filterIdentifier: string, value: FilterSpecification) {
     // Existing filteres and remove the one we're going to update, if it's there.
     const existingFilters = reject(clone(this.props.filter), (f) => f.id == filterIdentifier);
-
+    
     if (value.trim() != "") {
       existingFilters.push({ id: filterIdentifier, filter: value.trim() });
     }

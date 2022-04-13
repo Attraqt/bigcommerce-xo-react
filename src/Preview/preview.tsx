@@ -1,3 +1,4 @@
+/* eslint-disable lodash/consistent-compose */
 import ReactDOM from "react-dom";
 import Client from "../Attraqt/Client";
 import { SortOption } from "../Components/Data/SortOrder";
@@ -14,8 +15,8 @@ import ConfigurableContainer from "../Components/UI/Builder/ConfigurableContaine
 import { Configuration } from "../Components/UI/Builder/Configuration";
 import withSearch, { FixedState, SearchState } from "../Components/WithSearch";
 import { toSearchState, toURL } from "../State/transformer";
-import _ from "lodash";
 import { CornerstoneContainer, withBigCommerceConfiguration } from "..";
+import flowRight from "lodash/flowRight";
 
 enum PreviewType {
   BASIC,
@@ -23,7 +24,7 @@ enum PreviewType {
   BIGCOMMERCE,
 }
 
-const api = new Client("6051c020cdf2f91094b2ede1");
+const api = new Client("615b225d6484a1c6d099d96d");
 const sort: SortOption[] = [
   {
     attribute: "title",
@@ -49,13 +50,13 @@ const type: PreviewType = PreviewType.BIGCOMMERCE;
 
 switch (Number(type)) {
   case PreviewType.BASIC: {
-    const SearchContainer = _.flowRight(
+    const SearchContainer = flowRight(
       withSearch(api, initialState, fixedState, {}),
       withBigCommerceConfiguration()
     )(BasicContainer);
 
     ReactDOM.render(<SearchContainer />, document.getElementById("app"));
-
+   
     break;
   }
 
@@ -74,7 +75,7 @@ switch (Number(type)) {
       },
     };
 
-    const Container = _.flowRight(
+    const Container = flowRight(
       withSearch<{ config: Configuration }>(
         api,
         initialState,
@@ -95,12 +96,12 @@ switch (Number(type)) {
   }
 
   case PreviewType.BIGCOMMERCE: {
-    const SearchContainer = _.flowRight(
+    const SearchContainer = flowRight(
       withSearch(api, initialState, fixedState, {}),
       withBigCommerceConfiguration()
     )(CornerstoneContainer);
 
-    ReactDOM.render(<SearchContainer />, document.getElementById("app"));
+    ReactDOM.render(<SearchContainer />, document.getElementById("app"));  
 
     break;
   }
@@ -110,7 +111,7 @@ switch (Number(type)) {
   w.xoConfig = {
     trackerKey: "",
     searchEnabled: false,
-    searchToken: "6051c020cdf2f91094b2ede1",
+    searchToken: "615b225d6484a1c6d099d96d",
     currency: {
       alpha: "GBP",
       symbol: "£",
@@ -149,26 +150,65 @@ switch (Number(type)) {
         sortOrder: 1,
       },
     ],
-    customFacetConfigurations: [
-      {
-        isFilter: false,
-        attribute: "recommended",
-        ui: "basic",
-        sortOrder: 0,
-      },
-      {
-        isFilter: false,
-        attribute: "weight",
-        ui: "weight_facet_ui",
-        sortOrder: 1,
-      },
-      {
-        isFilter: true,
-        attribute: "price",
-        ui: "minmax",
-        sortOrder: 50,
-      },
-    ],
+    customFacetConfigurations:
+      [
+        {
+          "isFilter": false,
+          "id": "facet-Brand",
+          "ui": "basic",
+          "sortOrder": 0,
+          "attribute": "Brand",
+          "firestoreDocId": "6QtPYqXm32JiFy1CfCbS"
+        },
+        {
+          "isFilter": false,
+          "id": "facet-Gender",
+          "ui": "basic",
+          "sortOrder": 1,
+          "attribute": "Gender",
+          "firestoreDocId": "BxKQYPKVl4T6FnlugnsM"
+        },
+        {
+          "isFilter": false,
+          "id": "facet-Color",
+          "ui": "datalist",
+          "sortOrder": 2,
+          "attribute": "Color",
+          "firestoreDocId": "XGG4DiCsUmOrm9De1mcB"
+        },
+        {
+          "isFilter": true,
+          "id": "facet-price",
+          "ui": "numeric_range",
+          "sortOrder": 3,
+          "attribute": "price",
+          "firestoreDocId": "ku7jArzkhWWep2fYzl0Z"
+        },
+        {
+          "isFilter": false,
+          "id": "facet-newcollection",
+          "ui": "basic",
+          "sortOrder": 4,
+          "attribute": "tags",
+          "firestoreDocId": "rZVrCCIGvKt52oPWyCVD"
+        },
+        {
+          "isFilter": false,
+          "id": "facet-tagSelection",
+          "ui": "basic",
+          "sortOrder": 5,
+          "attribute": "tags",
+          "firestoreDocId": "TSxoqx8PgHLk6ILQyqtS"
+        },
+        {
+          "isFilter": false,
+          "id": "facet-categoryIds",
+          "ui": "basic",
+          "sortOrder": 6,
+          "attribute": "categoryIds",
+          "firestoreDocId": "abUzRfXDO0Hp4BZWhAnl"
+        }
+      ]
   } as any;
   d.dispatchEvent(
     new CustomEvent("xobc:config", { config: w.xoConfig } as any)

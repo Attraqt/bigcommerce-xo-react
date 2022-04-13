@@ -10,6 +10,7 @@ const ItemGrid = (props: ItemGridProps) => {
   return (
     <ul className="productGrid">
       {productCount > 0 ? (
+        // eslint-disable-next-line lodash/prefer-lodash-method
         props.items.map((item, index) => {
           return (
             <li className="product" key={index}>

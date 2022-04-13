@@ -1,3 +1,4 @@
+/* eslint-disable lodash/prefer-lodash-method */
 import React, { useEffect, useState } from "react";
 import Client from "../Attraqt/Client";
 import {
@@ -13,7 +14,7 @@ import { Item } from "./Data/Item";
 import { ActiveSortOption, SortOption } from "./Data/SortOrder";
 import { toSearchState, toURL } from "../State/transformer";
 import usePrevious from "../Util/UsePrevious";
-import _, { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 
 export type withSearchProps = {
   api: Client;
