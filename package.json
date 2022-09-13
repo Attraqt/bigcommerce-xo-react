@@ -1,6 +1,6 @@
 {
   "name": "@attraqt/bigcommerce-xo-react",
-  "version": "0.15.1-alpha",
+  "version": "1.1.0",
   "description": "React component library for implementing Attraqt XO.",
   "main": "build/index.js",
   "types": "build/index.d.ts",

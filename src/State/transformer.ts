@@ -4,7 +4,6 @@ import { filter, isEmpty, forEach } from "lodash";
 import { ActiveSortOption } from "../Components/Data/SortOrder";
 import { Filter, SelectedFacet } from "../Components/Data/Facet";
 
-const QUERY_ANY = "*";
 const PAGE_SIZE_DEFAULT = 32;
 
 const facetSorter = (a: SelectedFacet, b: SelectedFacet) =>
@@ -25,11 +24,7 @@ export const toSearchState = (url: string): SearchState => {
   let facets = params.get("facets");
   let filter = params.get("filter");
 
-  if (query) {
-    state.query = query;
-  } else {
-    state.query = QUERY_ANY;
-  }
+  state.query = query ?? '';
 
   if (sort) {
     const [attribute, order] = sort.split(":");
@@ -86,7 +81,7 @@ export const toSearchState = (url: string): SearchState => {
 export const toURL = (state: SearchState): string => {
   const params: any = {};
 
-  if (state.query && state.query !== QUERY_ANY) {
+  if (state.query) {
     params.search_query = state.query;
   }
 
