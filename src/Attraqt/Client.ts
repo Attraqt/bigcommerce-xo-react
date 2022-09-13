@@ -125,7 +125,7 @@ class Client {
   ): Request<SearchResponseRaw, SearchResponse> {
     const requestBody = {
       token: this.token,
-      query: query.length > 0 ? query : undefined,
+      query,
       options: {
         facets: reject(facets, (f) => f.values.length == 0),
         offset,
